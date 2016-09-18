@@ -1,0 +1,113 @@
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Game_Engine_test.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Timer.cpp
+  Primitive.cpp
+  PhysVehicle3D.cpp
+c:\program files (x86)\microsoft visual studio 14.0\vc\include\exception(359): warning C4577: 'noexcept' used with no exception handling mode specified; termination on exception is not guaranteed. Specify /EHsc
+  PhysBody3D.cpp
+c:\program files (x86)\microsoft visual studio 14.0\vc\include\exception(359): warning C4577: 'noexcept' used with no exception handling mode specified; termination on exception is not guaranteed. Specify /EHsc
+  ModuleWindow.cpp
+c:\program files (x86)\microsoft visual studio 14.0\vc\include\exception(359): warning C4577: 'noexcept' used with no exception handling mode specified; termination on exception is not guaranteed. Specify /EHsc
+  ModuleSceneIntro.cpp
+c:\program files (x86)\microsoft visual studio 14.0\vc\include\exception(359): warning C4577: 'noexcept' used with no exception handling mode specified; termination on exception is not guaranteed. Specify /EHsc
+  ModuleRenderer3D.cpp
+c:\program files (x86)\microsoft visual studio 14.0\vc\include\exception(359): warning C4577: 'noexcept' used with no exception handling mode specified; termination on exception is not guaranteed. Specify /EHsc
+  ModulePhysics3D.cpp
+c:\users\aleix\documents\github\game_engine\modulephysics3d.cpp(291): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\program files (x86)\microsoft visual studio 14.0\vc\include\exception(359): warning C4577: 'noexcept' used with no exception handling mode specified; termination on exception is not guaranteed. Specify /EHsc
+  ModuleInput.cpp
+c:\program files (x86)\microsoft visual studio 14.0\vc\include\exception(359): warning C4577: 'noexcept' used with no exception handling mode specified; termination on exception is not guaranteed. Specify /EHsc
+  ModuleCamera3D.cpp
+c:\program files (x86)\microsoft visual studio 14.0\vc\include\exception(359): warning C4577: 'noexcept' used with no exception handling mode specified; termination on exception is not guaranteed. Specify /EHsc
+  ModuleAudio.cpp
+c:\program files (x86)\microsoft visual studio 14.0\vc\include\exception(359): warning C4577: 'noexcept' used with no exception handling mode specified; termination on exception is not guaranteed. Specify /EHsc
+  Main.cpp
+c:\program files (x86)\microsoft visual studio 14.0\vc\include\exception(359): warning C4577: 'noexcept' used with no exception handling mode specified; termination on exception is not guaranteed. Specify /EHsc
+  log.cpp
+  Light.cpp
+  glmath.cpp
+c:\users\aleix\documents\github\game_engine\glmath.cpp(12): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\users\aleix\documents\github\game_engine\glmath.cpp(27): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\aleix\documents\github\game_engine\glmath.cpp(43): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\aleix\documents\github\game_engine\glmath.cpp(53): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\aleix\documents\github\game_engine\glmath.cpp(72): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\users\aleix\documents\github\game_engine\glmath.cpp(87): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\aleix\documents\github\game_engine\glmath.cpp(103): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\aleix\documents\github\game_engine\glmath.cpp(600): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\aleix\documents\github\game_engine\glmath.cpp(618): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\aleix\documents\github\game_engine\glmath.cpp(758): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\aleix\documents\github\game_engine\glmath.cpp(778): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  Color.cpp
+  Application.cpp
+c:\program files (x86)\microsoft visual studio 14.0\vc\include\exception(359): warning C4577: 'noexcept' used with no exception handling mode specified; termination on exception is not guaranteed. Specify /EHsc
+  Generating Code...
+BulletDynamics_debug.lib(btDiscreteDynamicsWorld.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletDynamics_debug.lib(btRigidBody.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletDynamics_debug.lib(btConeTwistConstraint.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletDynamics_debug.lib(btContactConstraint.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletDynamics_debug.lib(btGeneric6DofConstraint.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletDynamics_debug.lib(btHingeConstraint.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletDynamics_debug.lib(btPoint2PointConstraint.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletDynamics_debug.lib(btSequentialImpulseConstraintSolver.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletDynamics_debug.lib(btTypedConstraint.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletDynamics_debug.lib(btRaycastVehicle.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletDynamics_debug.lib(btWheelInfo.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btCollisionAlgorithm.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btDbvt.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btDbvtBroadphase.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btDispatcher.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btOverlappingPairCache.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btQuantizedBvh.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btActivatingCollisionAlgorithm.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btBoxBoxCollisionAlgorithm.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btBoxBoxDetector.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btCollisionDispatcher.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btCollisionObject.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btCollisionWorld.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btCompoundCollisionAlgorithm.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btCompoundCompoundCollisionAlgorithm.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btConvexConcaveCollisionAlgorithm.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btConvexConvexAlgorithm.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btConvexPlaneCollisionAlgorithm.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btDefaultCollisionConfiguration.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btEmptyCollisionAlgorithm.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btHashedSimplePairCache.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btManifoldResult.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btSimulationIslandManager.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btSphereSphereCollisionAlgorithm.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btSphereTriangleCollisionAlgorithm.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btUnionFind.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(SphereTriangleDetector.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btBoxShape.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btBvhTriangleMeshShape.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btCollisionShape.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btCompoundShape.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btConcaveShape.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btConvexInternalShape.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btConvexPolyhedron.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btConvexShape.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btCylinderShape.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btOptimizedBvh.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btPolyhedralConvexShape.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btSphereShape.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btStaticPlaneShape.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btTriangleCallback.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btTriangleMeshShape.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btContinuousConvexCollision.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btConvexCast.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btGjkConvexCast.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btGjkEpa2.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btGjkEpaPenetrationDepthSolver.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btGjkPairDetector.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btMinkowskiPenetrationDepthSolver.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btPersistentManifold.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btPolyhedralContactClipping.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btRaycastCallback.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btSubSimplexConvexCast.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+BulletCollision_debug.lib(btVoronoiSimplexSolver.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+LinearMath_debug.lib(btAlignedAllocator.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+LinearMath_debug.lib(btConvexHullComputer.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+LinearMath_debug.lib(btGeometryUtil.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+LinearMath_debug.lib(btQuickprof.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+LinearMath_debug.lib(btVector3.obj) : warning LNK4204: 'C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\vc140.pdb' is missing debugging information for referencing module; linking object as if no debug info
+  Game_Engine.vcxproj -> C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\Game_Engine.exe
+  Game_Engine.vcxproj -> C:\Users\Aleix\Documents\GitHub\Game_Engine\Debug\Game_Engine.pdb (Full PDB)
