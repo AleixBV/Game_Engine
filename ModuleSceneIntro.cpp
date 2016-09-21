@@ -40,7 +40,7 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
-	Plane floor(0, 1, 0, 0);
+	_Plane floor(0, 1, 0, 0);
 	floor.axis = true;
 	floor.color.Set(255, 255, 255);
 	floor.Render();
@@ -60,7 +60,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 
 void ModuleSceneIntro::CreateCube(const vec3& position, const vec3& size, float angle, const vec3& rotAxis)
 {
-	Cube* c = new Cube();
+	_Cube* c = new _Cube();
 	c->size.Set(size.x, size.y, size.z);
 	c->SetPos(position.x, position.y, position.z);
 	if (angle != 0.0f)
@@ -76,7 +76,7 @@ void ModuleSceneIntro::CreateCube(const vec3& position, const vec3& size, float 
 
 void ModuleSceneIntro::CreateSphere(const vec3& position, float radius)
 {
-	Sphere* c = new Sphere();
+	_Sphere* c = new _Sphere();
 	c->radius = radius;
 	c->SetPos(position.x, position.y, position.z);
 

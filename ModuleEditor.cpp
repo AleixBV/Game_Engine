@@ -72,7 +72,7 @@ update_status ModuleEditor::Update(float dt)
 
 		if (ImGui::BeginMenu("View"))
 		{
-			if (ImGui::MenuItem("Open test window"))
+			if (ImGui::MenuItem("Test Window"))
 				show_test_window = !show_test_window;
 
 			ImGui::EndMenu();
