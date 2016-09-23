@@ -59,7 +59,7 @@ update_status ModuleEditor::Update(float dt)
 
 	if (show_debug_window)
 	{
-		ImGui::SetNextWindowPos(ImVec2(50, 100), ImGuiSetCond_FirstUseEver);
+		ImGui::SetNextWindowPos(ImVec2(500, 50), ImGuiSetCond_FirstUseEver);
 		ShowDebugWindow(&show_debug_window);
 	}
 
@@ -128,7 +128,43 @@ update_status ModuleEditor::PostUpdate(float dt)
 
 void ModuleEditor::ShowDebugWindow(bool* p_open)
 {
+	if (!ImGui::Begin("Debug", p_open))
+	{
+		ImGui::End();
+		return;
+	}
 
+	if (ImGui::BeginMenu("Close"))
+	{
+		show_debug_window = false;
+		ImGui::EndMenu();
+	}
+
+	ImGui::PushItemWidth(-140);
+
+	ImGui::Text("Debug Window.");
+
+	if (ImGui::CollapsingHeader("Application info"))
+	{
+
+	}
+
+	if(ImGui::CollapsingHeader("Window Options"))
+	{
+
+	}
+
+	if (ImGui::CollapsingHeader("Input"))
+	{
+
+	}
+
+	if (ImGui::CollapsingHeader("Hardware"))
+	{
+
+	}
+
+	ImGui::End();
 }
 
 void ModuleEditor::ShowConsoleWindow(bool* p_open)
