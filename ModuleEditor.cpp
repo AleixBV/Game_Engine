@@ -26,6 +26,9 @@ bool ModuleEditor::Init()
 	ImGui_ImplSdlGL3_Init(App->window->window);
 
 	show_test_window = false;
+	show_debug_window = false;
+	show_console_window = false;
+	show_about_window = false;
 
 	return true;
 }
@@ -54,6 +57,30 @@ update_status ModuleEditor::Update(float dt)
 		ImGui::ShowTestWindow(&show_test_window);
 	}
 
+	if (show_debug_window)
+	{
+		ImGui::SetNextWindowPos(ImVec2(50, 100), ImGuiSetCond_FirstUseEver);
+		ShowDebugWindow(&show_debug_window);
+	}
+
+	if (show_console_window)
+	{
+		ImGui::SetNextWindowPos(ImVec2(20, 20), ImGuiSetCond_FirstUseEver);
+		ShowConsoleWindow(&show_console_window);
+	}
+
+	if (show_about_window)
+	{
+		ImGui::SetNextWindowPos(ImVec2(20, 20), ImGuiSetCond_FirstUseEver);
+		ImGui::Begin("About", &show_about_window, ImGuiWindowFlags_AlwaysAutoResize);
+		ImGui::Text("Game Engine made by Aleix Borrell Vives.");
+		ImGui::Separator();
+		ImGui::Text("The Game Engine is This is free and unencumbered software released into the public domain for educational purposes. see License in the README for more information.");
+		ImGui::Separator();
+		ImGui::Text("dear imgui, %s", ImGui::GetVersion());
+		ImGui::End();
+	}
+
 	if (ImGui::BeginMainMenuBar())
 	{
 		bool selected = false;
@@ -72,8 +99,13 @@ update_status ModuleEditor::Update(float dt)
 
 		if (ImGui::BeginMenu("View"))
 		{
-			if (ImGui::MenuItem("Test Window"))
-				show_test_window = !show_test_window;
+			ImGui::MenuItem("Test Window", NULL, &show_test_window);
+
+			ImGui::MenuItem("Debug Window", NULL, &show_debug_window);
+
+			ImGui::MenuItem("Console Window", NULL, &show_console_window);
+
+			ImGui::MenuItem("About Window", NULL, &show_about_window);
 
 			ImGui::EndMenu();
 		}
@@ -91,5 +123,15 @@ update_status ModuleEditor::PostUpdate(float dt)
 {
 
 	return UPDATE_CONTINUE;
+
+}
+
+void ModuleEditor::ShowDebugWindow(bool* p_open)
+{
+
+}
+
+void ModuleEditor::ShowConsoleWindow(bool* p_open)
+{
 
 }
