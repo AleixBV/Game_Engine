@@ -123,8 +123,8 @@
 #endif
 
 // Uncomment to specify the SIMD instruction set level in use.
-#define MATH_AVX
-//#define MATH_SSE41
+//#define MATH_AVX
+#define MATH_SSE41
 //#define MATH_SSE3
 //#define MATH_SSE2
 //#define MATH_SSE // SSE1.
