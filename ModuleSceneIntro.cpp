@@ -4,6 +4,9 @@
 #include "Primitive.h"
 #include "PhysBody3D.h"
 
+#include <gl/GL.h>
+#include <gl/GLU.h>
+
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 }
@@ -49,6 +52,77 @@ update_status ModuleSceneIntro::Update(float dt)
 	{
 		tmp->data->Render();
 	}
+
+
+	//DIRECT MODE!
+	
+	float v0[3] = { 1.0f, 1.0f, 1.0f };
+	float v1[3] = { 0.0f, 1.0f, 1.0f };
+	float v2[3] = { 0.0f, 0.0f, 1.0f };
+	float v3[3] = { 1.0f, 0.0f, 1.0f };
+	float v4[3] = { 1.0f, 0.0f, 0.0f };
+	float v5[3] = { 1.0f, 1.0f, 0.0f };
+	float v6[3] = { 0.0f, 1.0f, 0.0f };
+	float v7[3] = { 0.0f, 0.0f, 0.0f };
+
+	glBegin(GL_TRIANGLES);  // draw a cube with 12 triangles
+
+							// front face =================
+	glVertex3fv(v0);    // v0-v1-v2
+	glVertex3fv(v1);
+	glVertex3fv(v2);
+	
+	glVertex3fv(v2);    // v2-v3-v0
+	glVertex3fv(v3);
+	glVertex3fv(v0);
+	
+	// right face =================
+	glVertex3fv(v0);    // v0-v3-v4
+	glVertex3fv(v3);
+	glVertex3fv(v4);
+	
+	glVertex3fv(v4);    // v4-v5-v0
+	glVertex3fv(v5);
+	glVertex3fv(v0);
+
+	// top face ===================
+	glVertex3fv(v0);    // v0-v5-v6
+	glVertex3fv(v5);
+	glVertex3fv(v6);
+
+	glVertex3fv(v6);    // v6-v1-v0
+	glVertex3fv(v1);
+	glVertex3fv(v0);
+
+	// lower face ===================
+	glVertex3fv(v7);    // v7-v4-v3
+	glVertex3fv(v4);
+	glVertex3fv(v3);
+
+	glVertex3fv(v3);    // v3-v2-v7
+	glVertex3fv(v2);
+	glVertex3fv(v7);
+
+	// left face ===================
+	glVertex3fv(v1);    // v1-v6-v7
+	glVertex3fv(v6);
+	glVertex3fv(v7);
+
+	glVertex3fv(v7);    // v7-v2-v1
+	glVertex3fv(v2);
+	glVertex3fv(v1);
+
+	// rear face ===================
+	glVertex3fv(v7);    // v7-v6-v5
+	glVertex3fv(v6);
+	glVertex3fv(v5);
+
+	glVertex3fv(v5);    // v5-v4-v7
+	glVertex3fv(v4);
+	glVertex3fv(v7);
+	
+	
+		glEnd();
 
 	return UPDATE_CONTINUE;
 }
