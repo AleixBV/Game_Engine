@@ -3,9 +3,14 @@
 #include "ModuleSceneIntro.h"
 #include "Primitive.h"
 #include "PhysBody3D.h"
-
+#include "ModuleGeometryLoader.h"
+#include "Glew/include/glew.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
+
+#pragma comment (lib, "Assimp/libx86/assimp.lib")
+#pragma comment (lib, "Glew/libx86/glew32.lib")
+
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -19,6 +24,8 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
+
+	glewInit();
 
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
@@ -54,6 +61,17 @@ update_status ModuleSceneIntro::Update(float dt)
 	}
 
 
+	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	{
+		App->geometry_loader->LoadGeometryFromFile("Game/Assets/warrior.fbx");
+	}
+
+	for (unsigned int x = App->geometry_loader->meshes.size(), i = 0; x > 0; x--, i++)
+	{
+		App->renderer3D->Draw(&App->geometry_loader->meshes.at(i));
+	}
+
+	/*
 	//DIRECT MODE!
 	
 	float v0[3] = { 1.0f, 1.0f, 1.0f };
@@ -122,7 +140,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	glVertex3fv(v7);
 	
 	
-		glEnd();
+		glEnd();*/
 
 	return UPDATE_CONTINUE;
 }

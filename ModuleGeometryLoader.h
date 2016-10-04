@@ -2,7 +2,22 @@
 #define __ModuleGeometryLoader_H__
 
 #include "Module.h"
-#include "Application.h"
+#include <vector>
+
+struct Mesh
+{
+public:
+	Mesh();
+	~Mesh();
+
+	uint id_vertices = 0; // id in VRAM
+	uint num_indices = 0;
+	uint* indices = nullptr;
+
+	uint id_indices = 0; // id in VRAM
+	uint num_vertices = 0;
+	float* vertices = nullptr;
+};
 
 class ModuleGeometryLoader : public Module
 {
@@ -19,6 +34,10 @@ public:
 	update_status PreUpdate(float dt);
 	update_status Update(float dt);
 	update_status PostUpdate(float dt);
+
+	bool LoadGeometryFromFile(const char* path);
+
+	std::vector<Mesh> meshes;
 };
 
 #endif
