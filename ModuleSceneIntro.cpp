@@ -66,11 +66,6 @@ update_status ModuleSceneIntro::Update(float dt)
 		App->geometry_loader->LoadGeometryFromFile("Game/Assets/warrior.fbx");
 	}
 
-	for (unsigned int x = App->geometry_loader->meshes.size(), i = 0; x > 0; x--, i++)
-	{
-		App->renderer3D->Draw(&App->geometry_loader->meshes.at(i));
-	}
-
 	/*
 	//DIRECT MODE!
 	

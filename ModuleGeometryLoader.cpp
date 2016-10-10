@@ -1,4 +1,5 @@
 #include "Globals.h"
+#include "Application.h"
 #include "ModuleGeometryLoader.h"
 #include "Assimp/include/cimport.h"
 #include "Assimp/include/scene.h"
@@ -65,6 +66,10 @@ update_status ModuleGeometryLoader::Update(float dt)
 
 update_status ModuleGeometryLoader::PostUpdate(float dt)
 {
+	for (unsigned int x = meshes.size(), i = 0; x > 0; x--, i++)
+	{
+		App->renderer3D->Draw(&meshes.at(i));
+	}
 
 	return UPDATE_CONTINUE;
 }
