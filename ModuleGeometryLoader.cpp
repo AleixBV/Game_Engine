@@ -61,15 +61,16 @@ update_status ModuleGeometryLoader::Update(float dt)
 {
 	update_status ret = UPDATE_CONTINUE;
 
+	for (unsigned int x = meshes.size(), i = 0; x > 0; x--, i++)
+	{
+		App->renderer3D->Draw(&meshes.at(i));
+	}
+
 	return ret;
 }
 
 update_status ModuleGeometryLoader::PostUpdate(float dt)
 {
-	for (unsigned int x = meshes.size(), i = 0; x > 0; x--, i++)
-	{
-		App->renderer3D->Draw(&meshes.at(i));
-	}
 
 	return UPDATE_CONTINUE;
 }

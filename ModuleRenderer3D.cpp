@@ -160,6 +160,7 @@ void ModuleRenderer3D::Draw(Mesh* mesh)
 
 	while (iterator != App->geometry_loader->meshes.end())
 	{
+		glColor3f(255.0f, 255.0f, 255.0f);
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (*iterator).id_indices);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
