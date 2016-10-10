@@ -153,7 +153,7 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glLoadIdentity();
 }
 
-void ModuleRenderer3D::Draw(Mesh* mesh)
+void ModuleRenderer3D::DrawAllMeshes()
 {
 	//Mesh iterator
 	std::vector<Mesh>::iterator iterator = App->geometry_loader->meshes.begin();
@@ -169,4 +169,14 @@ void ModuleRenderer3D::Draw(Mesh* mesh)
 
 		iterator++;
 	}
+}
+
+void ModuleRenderer3D::DrawMesh(Mesh* mesh)
+{
+	glColor3f(255.0f, 255.0f, 255.0f);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
+	glDisableClientState(GL_VERTEX_ARRAY);
 }

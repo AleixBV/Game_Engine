@@ -19,7 +19,8 @@ public:
 	bool CleanUp();
 
 	void OnResize(int width, int height);
-	void Draw(Mesh* mesh);
+	void DrawAllMeshes();
+	void DrawMesh(Mesh* mesh);
 
 public:
 
