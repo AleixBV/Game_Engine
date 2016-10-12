@@ -26,7 +26,8 @@ bool ModuleEditor::Init()
 	ImGui_ImplSdlGL3_Init(App->window->window);
 
 	show_test_window = false;
-	show_debug_window = false;
+	show_info_window = false;
+	show_config_window = false;
 	show_console_window = false;
 	show_about_window = false;
 
@@ -57,10 +58,16 @@ update_status ModuleEditor::Update(float dt)
 		ImGui::ShowTestWindow(&show_test_window);
 	}
 
-	if (show_debug_window)
+	if (show_info_window)
 	{
 		ImGui::SetNextWindowPos(ImVec2(500, 50), ImGuiSetCond_FirstUseEver);
-		ShowDebugWindow(&show_debug_window);
+		ShowInfoWindow(&show_info_window);
+	}
+
+	if (show_config_window)
+	{
+		ImGui::SetNextWindowPos(ImVec2(500, 50), ImGuiSetCond_FirstUseEver);
+		ShowConfigWindow(&show_config_window);
 	}
 
 	if (show_console_window)
@@ -101,7 +108,9 @@ update_status ModuleEditor::Update(float dt)
 		{
 			ImGui::MenuItem("Test Window", NULL, &show_test_window);
 
-			ImGui::MenuItem("Debug Window", NULL, &show_debug_window);
+			ImGui::MenuItem("Information Window", NULL, &show_info_window);
+
+			ImGui::MenuItem("Configuration Window", NULL, &show_config_window);
 
 			ImGui::MenuItem("Console Window", NULL, &show_console_window);
 
@@ -126,9 +135,9 @@ update_status ModuleEditor::PostUpdate(float dt)
 
 }
 
-void ModuleEditor::ShowDebugWindow(bool* p_open)
+void ModuleEditor::ShowInfoWindow(bool* p_open)
 {
-	if (!ImGui::Begin("Debug", p_open))
+	if (!ImGui::Begin("Information", p_open))
 	{
 		ImGui::End();
 		return;
@@ -136,20 +145,15 @@ void ModuleEditor::ShowDebugWindow(bool* p_open)
 
 	if (ImGui::BeginMenu("Close"))
 	{
-		show_debug_window = false;
+		show_info_window = false;
 		ImGui::EndMenu();
 	}
 
 	ImGui::PushItemWidth(-140);
 
-	ImGui::Text("Debug Window.");
+	ImGui::Text("Information Window.");
 
 	if (ImGui::CollapsingHeader("Application info"))
-	{
-
-	}
-
-	if(ImGui::CollapsingHeader("Window Options"))
 	{
 
 	}
@@ -160,6 +164,51 @@ void ModuleEditor::ShowDebugWindow(bool* p_open)
 	}
 
 	if (ImGui::CollapsingHeader("Hardware"))
+	{
+		ImGui::Text("CPUs: %u (Cache: %ukb)", SDL_GetCPUCount(), SDL_GetCPUCacheLineSize());
+		ImGui::Text("System RAM: %.1fMb", SDL_GetSystemRAM());
+
+		ImGui::Text("Caps:%s%s%s%s%s%s%s%s%s%s%s",
+			SDL_Has3DNow() ? " 3DNow," : "",
+			SDL_HasAVX() ? " AVX," : "",
+			SDL_HasAVX2() ? " AVX2" : "",
+			SDL_HasAltiVec() ? " AltiVec," : "",
+			SDL_HasMMX() ? " MMX," : "",
+			SDL_HasRDTSC() ? " RDTSC," : "",
+			SDL_HasSSE() ? " SSE," : "",
+			SDL_HasSSE2() ? " SSE2," : "",
+			SDL_HasSSE3() ? " SSE3," : "",
+			SDL_HasSSE41() ? " SSE41," : "",
+			SDL_HasSSE42() ? " SSE42," : "");
+	}
+
+	ImGui::End();
+}
+
+void ModuleEditor::ShowConfigWindow(bool* p_open)
+{
+	if (!ImGui::Begin("Configuration", p_open))
+	{
+		ImGui::End();
+		return;
+	}
+
+	if (ImGui::BeginMenu("Close"))
+	{
+		show_config_window = false;
+		ImGui::EndMenu();
+	}
+
+	ImGui::PushItemWidth(-140);
+
+	ImGui::Text("Configuration Window.");
+
+	if (ImGui::CollapsingHeader("Application"))
+	{
+
+	}
+
+	if (ImGui::CollapsingHeader("Window Options"))
 	{
 
 	}

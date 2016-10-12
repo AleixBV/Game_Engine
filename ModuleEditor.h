@@ -20,12 +20,14 @@ public:
 	update_status PostUpdate(float dt);
 
 	bool show_test_window;
-	bool show_debug_window;
+	bool show_info_window;
+	bool show_config_window;
 	bool show_console_window;
 	bool show_about_window;
 
-	void ShowDebugWindow(bool* p_open);
+	void ShowInfoWindow(bool* p_open);
 	void ShowConsoleWindow(bool* p_open);
+	void ShowConfigWindow(bool* p_open);
 };
 
 #endif
