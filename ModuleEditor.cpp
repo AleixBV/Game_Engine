@@ -31,6 +31,8 @@ bool ModuleEditor::Init()
 	show_console_window = false;
 	show_about_window = false;
 
+	fps_and_ms_log_size = 120;
+
 	return true;
 }
 
@@ -135,6 +137,40 @@ update_status ModuleEditor::PostUpdate(float dt)
 
 }
 
+void ModuleEditor::UpdateFpsLog(float new_fps)
+{
+	uint quantity = fps_log.size();
+
+	if (quantity >= fps_and_ms_log_size)
+	{
+		for (uint i = 0; i < fps_and_ms_log_size - 1; i++)
+		{
+			fps_log[i] = fps_log[i + 1];
+		}
+		quantity--;
+		fps_log.pop_back();
+	}
+
+	fps_log.push_back(new_fps);
+}
+
+void ModuleEditor::UpdateMsLog(float new_ms)
+{
+	uint quantity = ms_log.size();
+
+	if (quantity >= fps_and_ms_log_size)
+	{
+		for (uint i = 0; i < fps_and_ms_log_size - 1; i++)
+		{
+			ms_log[i] = ms_log[i + 1];
+		}
+		quantity--;
+		ms_log.pop_back();
+	}
+
+	ms_log.push_back(new_ms);
+}
+
 void ModuleEditor::ShowInfoWindow(bool* p_open)
 {
 	if (!ImGui::Begin("Information", p_open))
@@ -155,7 +191,19 @@ void ModuleEditor::ShowInfoWindow(bool* p_open)
 
 	if (ImGui::CollapsingHeader("Application info"))
 	{
+		int max_fps = App->GetMaxFps();
+		if (ImGui::SliderInt("Max FPS", &max_fps, 0, 120))
+			App->SetMaxFps(max_fps);
 
+		ImGui::Text("Limit Framerate:");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", App->GetMaxFps());
+		
+		char title[25];
+		sprintf_s(title, 25, "Framerate %.1f", fps_log[fps_log.size() - 1]);
+		ImGui::PlotHistogram("##framerate", &fps_log[0], fps_log.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
+		sprintf_s(title, 25, "Milliseconds %0.1f", ms_log[ms_log.size() - 1]);
+		ImGui::PlotHistogram("##milliseconds", &ms_log[0], ms_log.size(), 0, title, 0.0f, 40.0f, ImVec2(310, 100));
 	}
 
 	if (ImGui::CollapsingHeader("Input"))

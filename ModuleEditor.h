@@ -2,6 +2,7 @@
 #define __ModuleEditor_H__
 
 #include "Module.h"
+#include <vector>
 
 class ModuleEditor : public Module
 {
@@ -24,6 +25,12 @@ public:
 	bool show_config_window;
 	bool show_console_window;
 	bool show_about_window;
+
+	uint fps_and_ms_log_size;
+	std::vector<float> fps_log;
+	std::vector<float> ms_log;
+	void UpdateFpsLog(float new_fps);
+	void UpdateMsLog(float new_ms);
 
 	void ShowInfoWindow(bool* p_open);
 	void ShowConsoleWindow(bool* p_open);

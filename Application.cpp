@@ -46,6 +46,10 @@ Application::~Application()
 bool Application::Init()
 {
 	bool ret = true;
+	max_fps = 120;
+	max_ms_per_frame = 1000 / 120;
+	frames = 0.0f;
+	ms_in_last_frame = 0.0f;
 
 	// Call Init() in all modules
 	p2List_item<Module*>* item = list_modules.getFirst();
@@ -67,6 +71,7 @@ bool Application::Init()
 	}
 	
 	ms_timer.Start();
+	fps_timer.Start();
 	return ret;
 }
 
@@ -80,6 +85,21 @@ void Application::PrepareUpdate()
 // ---------------------------------------------
 void Application::FinishUpdate()
 {
+	frames++;
+
+	if (fps_timer.Read() >= 1000)
+	{
+		editor->UpdateFpsLog(frames);
+		frames = 0;
+		fps_timer.Start();
+	}
+
+	ms_in_last_frame = ms_timer.Read();
+
+	if (ms_in_last_frame < max_ms_per_frame && max_ms_per_frame > 0)
+		SDL_Delay(max_ms_per_frame - ms_in_last_frame);
+
+	editor->UpdateMsLog(ms_in_last_frame);
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules
@@ -114,6 +134,21 @@ update_status Application::Update()
 
 	FinishUpdate();
 	return ret;
+}
+
+int Application::GetMaxFps()
+{
+	return max_fps;
+}
+
+void Application::SetMaxFps(int x)
+{
+	if (x > 0 && x < 120)
+		max_fps = x;
+	else
+		max_fps = 120;
+
+	max_ms_per_frame = 1000 / max_fps;
 }
 
 bool Application::CleanUp()

@@ -32,6 +32,11 @@ private:
 	Timer	ms_timer;
 	float	dt;
 	p2List<Module*> list_modules;
+	int		max_fps;
+	Timer	fps_timer;
+	float	frames;
+	float	max_ms_per_frame;
+	float	ms_in_last_frame;
 
 public:
 
@@ -41,6 +46,9 @@ public:
 	bool Init();
 	update_status Update();
 	bool CleanUp();
+
+	int GetMaxFps();
+	void SetMaxFps(int x);
 
 private:
 
