@@ -33,6 +33,9 @@ bool ModuleEditor::Init()
 
 	fps_and_ms_log_size = 120;
 
+	//save & load is needed
+	vsync = VSYNC;
+
 	return true;
 }
 
@@ -253,7 +256,17 @@ void ModuleEditor::ShowConfigWindow(bool* p_open)
 
 	if (ImGui::CollapsingHeader("Application"))
 	{
-
+		bool last_vsync = vsync;
+		ImGui::Checkbox("Vsync", &vsync);
+		if (vsync != last_vsync)
+		{
+			if (vsync)
+				if (SDL_GL_SetSwapInterval(1) < 0)
+					LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
+			if (!vsync)
+				if (SDL_GL_SetSwapInterval(0) < 0)
+					LOG("Warning: Unable to unset VSync! SDL Error: %s\n", SDL_GetError());
+		}
 	}
 
 	if (ImGui::CollapsingHeader("Window Options"))

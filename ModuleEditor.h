@@ -31,6 +31,7 @@ public:
 	std::vector<float> ms_log;
 	void UpdateFpsLog(float new_fps);
 	void UpdateMsLog(float new_ms);
+	bool vsync;
 
 	void ShowInfoWindow(bool* p_open);
 	void ShowConsoleWindow(bool* p_open);

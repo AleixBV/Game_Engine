@@ -47,7 +47,7 @@ bool Application::Init()
 {
 	bool ret = true;
 	max_fps = 120;
-	max_ms_per_frame = 1000 / 120;
+	max_ms_per_frame = 1000.0f / 120.0f;
 	frames = 0.0f;
 	ms_in_last_frame = 0.0f;
 
@@ -148,7 +148,7 @@ void Application::SetMaxFps(int x)
 	else
 		max_fps = 120;
 
-	max_ms_per_frame = 1000 / max_fps;
+	max_ms_per_frame = 1000 / (float)max_fps;
 }
 
 bool Application::CleanUp()
