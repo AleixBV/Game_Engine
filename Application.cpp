@@ -168,3 +168,8 @@ void Application::AddModule(Module* mod)
 {
 	list_modules.add(mod);
 }
+
+void Application::OpenLink(char* path)
+{
+	ShellExecuteA(0, "Open", path, 0, "", 3);
+}

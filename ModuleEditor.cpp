@@ -1,9 +1,9 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleEditor.h"
-#include "imgui\imgui.h"
-#include "imgui\imgui_impl_sdl_gl3.h"
-#include "imgui\gl3w.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_sdl_gl3.h"
+#include "imgui/gl3w.h"
 
 //Constructor
 ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -88,8 +88,15 @@ update_status ModuleEditor::Update(float dt)
 		ImGui::Text("Game Engine made by Aleix Borrell Vives.");
 		ImGui::Separator();
 		ImGui::Text("The Game Engine is This is free and unencumbered software released into the public domain for educational purposes. see License in the README for more information.");
+		if (ImGui::Button("Github", ImVec2(100, 25)))
+		{
+			App->OpenLink("https://github.com/AleixBV/Game_Engine");
+		}
 		ImGui::Separator();
-		ImGui::Text("dear imgui, %s", ImGui::GetVersion());
+		ImGui::Text("dear imgui: %s", ImGui::GetVersion());
+		SDL_version sdl_version;
+		SDL_VERSION(&sdl_version);
+		ImGui::Text("SDL version: %u.%u.%u", sdl_version.major, sdl_version.minor, sdl_version.patch);
 		ImGui::End();
 	}
 
