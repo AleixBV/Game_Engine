@@ -19,6 +19,9 @@ public:
 	bool CleanUp();
 
 	void SetTitle(const char* title);
+	const char* GetTitle() const;
+	void SetOrganization(const char* title);
+	const char* GetOrganization() const;
 
 public:
 	//The window we'll be rendering to
@@ -26,6 +29,24 @@ public:
 
 	//The surface contained by the window
 	SDL_Surface* screen_surface;
+
+	void SetFullscreen(bool fullscreen);
+	void SetResizable(bool resizable);
+	void SetBorderless(bool borderless);
+	void SetFullDesktop(bool full_desktop);
+	void SetBrightness(float brightness);
+	void SetWidth(int width);
+	uint GetWidth();
+	void SetHeight(int height);
+	uint GetHeight();
+	uint GetRefreshRate();
+
+private:
+	bool resizable;
+	const char* title;
+	const char* organization;
+	uint width;
+	uint height;
 };
 
 #endif // __ModuleWindow_H__

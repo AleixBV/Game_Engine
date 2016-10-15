@@ -31,7 +31,16 @@ public:
 	std::vector<float> ms_log;
 	void UpdateFpsLog(float new_fps);
 	void UpdateMsLog(float new_ms);
+	char app_name;
+	char organization_name;
 	bool vsync;
+	bool fullscreen;
+	bool resizable;
+	bool borderless;
+	bool full_desktop;
+	float brightness;
+	int width;
+	int height;
 
 	void ShowInfoWindow(bool* p_open);
 	void ShowConsoleWindow(bool* p_open);

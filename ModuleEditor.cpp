@@ -35,6 +35,10 @@ bool ModuleEditor::Init()
 
 	//save & load is needed
 	vsync = VSYNC;
+	fullscreen = WIN_FULLSCREEN;
+	brightness = 1.0f;
+	width = SCREEN_WIDTH;
+	height = SCREEN_HEIGHT;
 
 	return true;
 }
@@ -211,7 +215,7 @@ void ModuleEditor::ShowInfoWindow(bool* p_open)
 		
 		char title[25];
 		sprintf_s(title, 25, "Framerate %.1f", fps_log[fps_log.size() - 1]);
-		ImGui::PlotHistogram("##framerate", &fps_log[0], fps_log.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
+		ImGui::PlotHistogram("##framerate", &fps_log[0], fps_log.size(), 0, title, 0.0f, 120.0f, ImVec2(310, 100));
 		sprintf_s(title, 25, "Milliseconds %0.1f", ms_log[ms_log.size() - 1]);
 		ImGui::PlotHistogram("##milliseconds", &ms_log[0], ms_log.size(), 0, title, 0.0f, 40.0f, ImVec2(310, 100));
 	}
@@ -263,9 +267,15 @@ void ModuleEditor::ShowConfigWindow(bool* p_open)
 
 	if (ImGui::CollapsingHeader("Application"))
 	{
-		bool last_vsync = vsync;
-		ImGui::Checkbox("Vsync", &vsync);
-		if (vsync != last_vsync)
+		static char* title = (char*)App->window->GetTitle();
+		if (ImGui::InputText("Application Name", title, 100, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+			App->window->SetTitle(title);
+
+		static char* organization = (char*)App->window->GetOrganization();
+		if (ImGui::InputText("Organization Name", organization, 100, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+			App->window->SetOrganization(organization);
+
+		if(ImGui::Checkbox("Vsync", &vsync))
 		{
 			if (vsync)
 				if (SDL_GL_SetSwapInterval(1) < 0)
@@ -278,7 +288,25 @@ void ModuleEditor::ShowConfigWindow(bool* p_open)
 
 	if (ImGui::CollapsingHeader("Window Options"))
 	{
-
+		if (ImGui::SliderFloat("Brightness", &brightness, 0.0f, 1.0f))
+			App->window->SetBrightness(brightness);
+		if (ImGui::SliderInt("Width", &width, 1, 1980))
+			App->window->SetWidth(width);
+		if (ImGui::SliderInt("Height", &height, 1, 1080))
+			App->window->SetHeight(height);
+		ImGui::Text("Refresh rate: %u", App->window->GetRefreshRate());
+		if (ImGui::Checkbox("Fullscreen", &fullscreen))
+			App->window->SetFullscreen(fullscreen);
+		ImGui::SameLine();
+		if (ImGui::Checkbox("Resizable", &resizable))
+			App->window->SetResizable(resizable);
+		if (ImGui::IsItemHovered())
+			ImGui::SetTooltip("Restart to apply");
+		if (ImGui::Checkbox("Borderless", &borderless))
+			App->window->SetBorderless(borderless);
+		ImGui::SameLine();
+		if (ImGui::Checkbox("Full Desktop", &full_desktop))
+			App->window->SetFullDesktop(full_desktop);
 	}
 
 	ImGui::End();
