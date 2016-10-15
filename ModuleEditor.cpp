@@ -227,10 +227,16 @@ void ModuleEditor::ShowInfoWindow(bool* p_open)
 
 	if (ImGui::CollapsingHeader("Hardware"))
 	{
-		ImGui::Text("CPUs: %u (Cache: %ukb)", SDL_GetCPUCount(), SDL_GetCPUCacheLineSize());
-		ImGui::Text("System RAM: %.1fMb", SDL_GetSystemRAM());
+		ImGui::Text("CPUs:");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%u (Cache: %ukb)", SDL_GetCPUCount(), SDL_GetCPUCacheLineSize());
+		ImGui::Text("System RAM:");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.1fMb", (float)SDL_GetSystemRAM());
 
-		ImGui::Text("Caps:%s%s%s%s%s%s%s%s%s%s%s",
+		ImGui::Text("Caps:");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s%s%s%s%s%s%s%s%s%s%s",
 			SDL_Has3DNow() ? " 3DNow," : "",
 			SDL_HasAVX() ? " AVX," : "",
 			SDL_HasAVX2() ? " AVX2" : "",
@@ -290,11 +296,13 @@ void ModuleEditor::ShowConfigWindow(bool* p_open)
 	{
 		if (ImGui::SliderFloat("Brightness", &brightness, 0.0f, 1.0f))
 			App->window->SetBrightness(brightness);
-		if (ImGui::SliderInt("Width", &width, 1, 1980))
+		if (ImGui::SliderInt("Width", &width, 640, 1980))
 			App->window->SetWidth(width);
-		if (ImGui::SliderInt("Height", &height, 1, 1080))
+		if (ImGui::SliderInt("Height", &height, 480, 1080))
 			App->window->SetHeight(height);
-		ImGui::Text("Refresh rate: %u", App->window->GetRefreshRate());
+		ImGui::Text("Refresh rate:");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%u", App->window->GetRefreshRate());
 		if (ImGui::Checkbox("Fullscreen", &fullscreen))
 			App->window->SetFullscreen(fullscreen);
 		ImGui::SameLine();
