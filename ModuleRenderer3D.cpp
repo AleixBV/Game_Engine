@@ -1,6 +1,8 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleRenderer3D.h"
+#include "Mesh.h"
+#include <vector>
 #include "Glew/include/glew.h"
 #include "SDL/include/SDL_opengl.h"
 #include <gl/GL.h>
@@ -187,41 +189,41 @@ void ModuleRenderer3D::OnResize(int width, int height)
 void ModuleRenderer3D::DrawAllMeshes()
 {
 	//Mesh iterator
-	std::vector<Mesh>::iterator iterator = App->geometry_loader->meshes.begin();
+	std::vector<Mesh*>::iterator iterator = App->scene_intro->meshes.begin();
 
-	while (iterator != App->geometry_loader->meshes.end())
+	while (iterator != App->scene_intro->meshes.end())
 	{
 		glColor3f(1.0f, 1.0f, 1.0f);
 
-		if ((*iterator).id_normals > 0)
+		if ((*iterator)->id_normals > 0)
 		{
 			glEnable(GL_LIGHTING);
 			glEnableClientState(GL_NORMAL_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, ((*iterator).id_normals));
+			glBindBuffer(GL_ARRAY_BUFFER, ((*iterator)->id_normals));
 			glNormalPointer(GL_FLOAT, 0, NULL);
 		}
 
 		glEnableClientState(GL_VERTEX_ARRAY);
 
-		glBindBuffer(GL_ARRAY_BUFFER, ((*iterator).id_vertices));
+		glBindBuffer(GL_ARRAY_BUFFER, ((*iterator)->id_vertices));
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
 
-		if ((*iterator).id_texture_coordinates > 0)
+		if ((*iterator)->id_texture_coordinates > 0)
 		{
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, (*iterator).id_texture_coordinates);
+			glBindBuffer(GL_ARRAY_BUFFER, (*iterator)->id_texture_coordinates);
 			glTexCoordPointer(3, GL_FLOAT, 0, NULL);
 		}
 
-		if ((*iterator).id_colors > 0)
+		if ((*iterator)->id_colors > 0)
 		{
 			glEnableClientState(GL_COLOR_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, (*iterator).id_colors);
+			glBindBuffer(GL_ARRAY_BUFFER, (*iterator)->id_colors);
 			glColorPointer(3, GL_FLOAT, 0, NULL);
 		}
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (*iterator).id_indices);
-		glDrawElements(GL_TRIANGLES, (*iterator).num_indices, GL_UNSIGNED_INT, NULL);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (*iterator)->id_indices);
+		glDrawElements(GL_TRIANGLES, (*iterator)->num_indices, GL_UNSIGNED_INT, NULL);
 
 		glDisableClientState(GL_NORMAL_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);

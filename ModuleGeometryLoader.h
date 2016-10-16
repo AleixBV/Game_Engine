@@ -17,9 +17,7 @@ public:
 	bool Init();
 	bool CleanUp();
 
-	bool LoadGeometryFromFile(const char* path);
-
-	std::vector<Mesh> meshes;
+	bool LoadGeometryFromFile(const char* path, std::vector<Mesh*>* meshes);
 };
 
 #endif

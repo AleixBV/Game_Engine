@@ -44,6 +44,13 @@ bool ModuleSceneIntro::CleanUp()
 	}
 	primitives.clear();
 
+	std::vector<Mesh*>::iterator iterator = meshes.begin();
+	while (iterator != meshes.end())
+	{
+		delete(*iterator);
+		iterator++;
+	}
+
 	return true;
 }
 
@@ -56,11 +63,16 @@ update_status ModuleSceneIntro::Update(float dt)
 	}
 
 
+	//if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	//{
+	//	App->geometry_loader->LoadGeometryFromFile("Game/Assets/warrior.fbx");
+	//}
+
 	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 	{
-		App->geometry_loader->LoadGeometryFromFile("Game/Assets/warrior.fbx");
+		App->geometry_loader->LoadGeometryFromFile("Game/Assets/Town/Street environment_V01.fbx", &meshes);
 	}
-
+	
 	/*
 	//DIRECT MODE!
 	

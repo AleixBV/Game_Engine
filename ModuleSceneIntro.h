@@ -3,6 +3,8 @@
 #include "p2DynArray.h"
 #include "Globals.h"
 #include "Primitive.h"
+#include "Mesh.h"
+#include <vector>
 
 #define MAX_SNAKE 2
 #define DIAMETER_WORLD 2500
@@ -21,6 +23,8 @@ public:
 	bool CleanUp();
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
+
+	std::vector<Mesh*> meshes;
 
 private:
 	void CreateSphere(const vec3& position, float radius);

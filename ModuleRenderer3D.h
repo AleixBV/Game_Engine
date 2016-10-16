@@ -2,10 +2,9 @@
 #include "Module.h"
 #include "Globals.h"
 #include "Light.h"
+#include "Mesh.h"
 
 #define MAX_LIGHTS 8
-
-struct Mesh;
 
 class ModuleRenderer3D : public Module
 {
