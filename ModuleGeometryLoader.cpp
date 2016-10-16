@@ -52,30 +52,6 @@ bool ModuleGeometryLoader::CleanUp()
 	return true;
 }
 
-update_status ModuleGeometryLoader::PreUpdate(float dt)
-{
-	return UPDATE_CONTINUE;
-}
-
-update_status ModuleGeometryLoader::Update(float dt)
-{
-	update_status ret = UPDATE_CONTINUE;
-
-	/*for (unsigned int x = meshes.size(), i = 0; x > 0; x--, i++)
-	{
-		App->renderer3D->DrawMesh(&meshes.at(i));
-	}*/
-	App->renderer3D->DrawAllMeshes();
-
-	return ret;
-}
-
-update_status ModuleGeometryLoader::PostUpdate(float dt)
-{
-
-	return UPDATE_CONTINUE;
-}
-
 bool ModuleGeometryLoader::LoadGeometryFromFile(const char* path)
 {
 	bool ret = true;

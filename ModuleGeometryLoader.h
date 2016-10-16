@@ -31,10 +31,6 @@ public:
 	bool Init();
 	bool CleanUp();
 
-	update_status PreUpdate(float dt);
-	update_status Update(float dt);
-	update_status PostUpdate(float dt);
-
 	bool LoadGeometryFromFile(const char* path);
 
 	std::vector<Mesh> meshes;

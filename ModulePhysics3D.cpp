@@ -16,10 +16,7 @@
 #endif
 
 ModulePhysics3D::ModulePhysics3D(Application* app, bool start_enabled) : Module(app, start_enabled)
-{
-	debug = true;
-
-	collision_conf = new btDefaultCollisionConfiguration();
+{collision_conf = new btDefaultCollisionConfiguration();
 	dispatcher = new btCollisionDispatcher(collision_conf);
 	broad_phase = new btDbvtBroadphase();
 	solver = new btSequentialImpulseConstraintSolver();
@@ -112,30 +109,6 @@ update_status ModulePhysics3D::PreUpdate(float dt)
 // ---------------------------------------------------------
 update_status ModulePhysics3D::Update(float dt)
 {
-	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
-		debug = !debug;
-
-	if(debug == true)
-	{
-		world->debugDrawWorld();
-
-		// Render vehicles
-		p2List_item<PhysVehicle3D*>* item = vehicles.getFirst();
-		while(item)
-		{
-			item->data->Render();
-			item = item->next;
-		}
-
-		if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
-		{
-			_Sphere s(1);
-			s.SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
-			float force = 30.0f;
-			AddBody(s)->Push(-(App->camera->Z.x * force), -(App->camera->Z.y * force), -(App->camera->Z.z * force));
-		}
-	}
-
 	return UPDATE_CONTINUE;
 }
 
@@ -356,6 +329,28 @@ void ModulePhysics3D::AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, c
 	constraints.add(hinge);
 	hinge->setDbgDrawSize(2.0f);
 }
+
+void ModulePhysics3D::DebugDraw()
+{
+	world->debugDrawWorld();
+
+	// Render vehicles
+	p2List_item<PhysVehicle3D*>* item = vehicles.getFirst();
+	while (item)
+	{
+		item->data->Render();
+		item = item->next;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	{
+		_Sphere s(1);
+		s.SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
+		float force = 30.0f;
+		AddBody(s)->Push(-(App->camera->Z.x * force), -(App->camera->Z.y * force), -(App->camera->Z.z * force));
+	}
+}
+
 
 // =============================================
 void DebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)

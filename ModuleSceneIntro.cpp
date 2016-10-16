@@ -50,11 +50,6 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
-	_Plane floor(0, 1, 0, 0);
-	floor.axis = true;
-	floor.color.Set(255, 255, 255);
-	floor.Render();
-
 	for (p2List_item<Primitive*>* tmp = primitives.getFirst(); tmp != NULL; tmp = tmp->next)
 	{
 		tmp->data->Render();

@@ -18,7 +18,8 @@ public:
 
 	update_status PreUpdate(float dt);
 	update_status Update(float dt);
-	update_status PostUpdate(float dt);
+
+	void Draw();
 
 	bool show_test_window;
 	bool show_info_window;
@@ -42,9 +43,9 @@ public:
 	int width;
 	int height;
 
-	void ShowInfoWindow(bool* p_open);
-	void ShowConsoleWindow(bool* p_open);
-	void ShowConfigWindow(bool* p_open);
+	void ShowInfoWindow(bool* show_window);
+	void ShowConsoleWindow(bool* show_window);
+	void ShowConfigWindow(bool* show_window);
 };
 
 #endif

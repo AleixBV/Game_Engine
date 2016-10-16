@@ -50,6 +50,7 @@ public:
 	int GetMaxFps();
 	void SetMaxFps(int x);
 	void OpenLink(char* path);
+	void DebugDraw();
 
 private:
 

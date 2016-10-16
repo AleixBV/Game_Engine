@@ -23,6 +23,8 @@ bool ModuleRenderer3D::Init()
 {
 	LOG("Creating 3D Renderer context");
 	bool ret = true;
+
+	debug_draw = false;
 	
 	//Create context
 	context = SDL_GL_CreateContext(App->window->window);
@@ -110,6 +112,8 @@ bool ModuleRenderer3D::Init()
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
+	Color c = App->camera->background;
+	glClearColor(c.r, c.g, c.b, c.a);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
@@ -125,9 +129,33 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	return UPDATE_CONTINUE;
 }
 
+update_status ModuleRenderer3D::Update(float dt)
+{
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		debug_draw = !debug_draw;
+
+	return UPDATE_CONTINUE;
+}
+
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
+	_Plane floor(0, 1, 0, 0);
+	floor.axis = true;
+	floor.color.Set(255, 255, 255);
+	floor.Render();
+
+	DrawAllMeshes();
+
+	if (debug_draw == true)
+	{
+		//BeginDebugDraw();
+		App->DebugDraw();
+		//EndDebugDraw();
+	}
+
+	App->editor->Draw();
+
 	SDL_GL_SwapWindow(App->window->window);
 	return UPDATE_CONTINUE;
 }
@@ -163,7 +191,7 @@ void ModuleRenderer3D::DrawAllMeshes()
 
 	while (iterator != App->geometry_loader->meshes.end())
 	{
-		glColor3f(255.0f, 255.0f, 255.0f);
+		glColor3f(1.0f, 1.0f, 1.0f);
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (*iterator).id_indices);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
@@ -176,7 +204,7 @@ void ModuleRenderer3D::DrawAllMeshes()
 
 void ModuleRenderer3D::DrawMesh(Mesh* mesh)
 {
-	glColor3f(255.0f, 255.0f, 255.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);

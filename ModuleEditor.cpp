@@ -137,18 +137,12 @@ update_status ModuleEditor::Update(float dt)
 
 		ImGui::EndMainMenuBar();
 	}
-
-
-	//--------------------
-	ImGui::Render();
 	return ret;
 }
 
-update_status ModuleEditor::PostUpdate(float dt)
+void ModuleEditor::Draw()
 {
-
-	return UPDATE_CONTINUE;
-
+	ImGui::Render();
 }
 
 void ModuleEditor::UpdateFpsLog(float new_fps)
@@ -185,9 +179,9 @@ void ModuleEditor::UpdateMsLog(float new_ms)
 	ms_log.push_back(new_ms);
 }
 
-void ModuleEditor::ShowInfoWindow(bool* p_open)
+void ModuleEditor::ShowInfoWindow(bool* show_window)
 {
-	if (!ImGui::Begin("Information", p_open))
+	if (!ImGui::Begin("Information", show_window))
 	{
 		ImGui::End();
 		return;
@@ -253,9 +247,9 @@ void ModuleEditor::ShowInfoWindow(bool* p_open)
 	ImGui::End();
 }
 
-void ModuleEditor::ShowConfigWindow(bool* p_open)
+void ModuleEditor::ShowConfigWindow(bool* show_window)
 {
-	if (!ImGui::Begin("Configuration", p_open))
+	if (!ImGui::Begin("Configuration", show_window))
 	{
 		ImGui::End();
 		return;
@@ -320,7 +314,9 @@ void ModuleEditor::ShowConfigWindow(bool* p_open)
 	ImGui::End();
 }
 
-void ModuleEditor::ShowConsoleWindow(bool* p_open)
+void ModuleEditor::ShowConsoleWindow(bool* show_window)
 {
-
+	//ImGui::Begin("Console", show_window);
+	
+	//ImGui::End();
 }

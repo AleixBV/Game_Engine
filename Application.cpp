@@ -173,3 +173,15 @@ void Application::OpenLink(char* path)
 {
 	ShellExecuteA(0, "Open", path, 0, "", 3);
 }
+
+void Application::DebugDraw()
+{
+	p2List_item<Module*>* item = list_modules.getFirst();
+
+	while (item != NULL)
+	{
+		item->data->DebugDraw();
+		item = item->next;
+	}
+
+}
