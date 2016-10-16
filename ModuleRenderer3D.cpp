@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleRenderer3D.h"
+#include "GameObject.h"
 #include "Mesh.h"
 #include <vector>
 #include "Glew/include/glew.h"
@@ -189,46 +190,54 @@ void ModuleRenderer3D::OnResize(int width, int height)
 void ModuleRenderer3D::DrawAllMeshes()
 {
 	//Mesh iterator
-	std::vector<Mesh*>::iterator iterator = App->scene_intro->meshes.begin();
+	std::vector<GameObject*>::iterator iterator = App->scene_intro->game_objects.begin();
 
-	while (iterator != App->scene_intro->meshes.end())
+	while (iterator != App->scene_intro->game_objects.end())
 	{
 		glColor3f(1.0f, 1.0f, 1.0f);
 
-		if ((*iterator)->id_normals > 0)
+		std::vector<Component*> components_mesh;
+		if ((*iterator)->FindComponent(&components_mesh, MESH_COMPONENT))
 		{
-			glEnable(GL_LIGHTING);
-			glEnableClientState(GL_NORMAL_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, ((*iterator)->id_normals));
-			glNormalPointer(GL_FLOAT, 0, NULL);
+			for (int i = 0; i < components_mesh.capacity(); i++)
+			{
+				Mesh* mesh = (Mesh*)components_mesh[i];
+				if (mesh->id_normals > 0)
+				{
+					glEnable(GL_LIGHTING);
+					glEnableClientState(GL_NORMAL_ARRAY);
+					glBindBuffer(GL_ARRAY_BUFFER, (mesh->id_normals));
+					glNormalPointer(GL_FLOAT, 0, NULL);
+				}
+
+				glEnableClientState(GL_VERTEX_ARRAY);
+
+				glBindBuffer(GL_ARRAY_BUFFER, (mesh->id_vertices));
+				glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+				if (mesh->id_texture_coordinates > 0)
+				{
+					glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+					glBindBuffer(GL_ARRAY_BUFFER, mesh->id_texture_coordinates);
+					glTexCoordPointer(3, GL_FLOAT, 0, NULL);
+				}
+
+				if (mesh->id_colors > 0)
+				{
+					glEnableClientState(GL_COLOR_ARRAY);
+					glBindBuffer(GL_ARRAY_BUFFER, mesh->id_colors);
+					glColorPointer(3, GL_FLOAT, 0, NULL);
+				}
+
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
+				glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
+
+				glDisableClientState(GL_NORMAL_ARRAY);
+				glDisableClientState(GL_VERTEX_ARRAY);
+				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+				glDisableClientState(GL_COLOR_ARRAY);
+			}
 		}
-
-		glEnableClientState(GL_VERTEX_ARRAY);
-
-		glBindBuffer(GL_ARRAY_BUFFER, ((*iterator)->id_vertices));
-		glVertexPointer(3, GL_FLOAT, 0, NULL);
-
-		if ((*iterator)->id_texture_coordinates > 0)
-		{
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, (*iterator)->id_texture_coordinates);
-			glTexCoordPointer(3, GL_FLOAT, 0, NULL);
-		}
-
-		if ((*iterator)->id_colors > 0)
-		{
-			glEnableClientState(GL_COLOR_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, (*iterator)->id_colors);
-			glColorPointer(3, GL_FLOAT, 0, NULL);
-		}
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (*iterator)->id_indices);
-		glDrawElements(GL_TRIANGLES, (*iterator)->num_indices, GL_UNSIGNED_INT, NULL);
-
-		glDisableClientState(GL_NORMAL_ARRAY);
-		glDisableClientState(GL_VERTEX_ARRAY);
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		glDisableClientState(GL_COLOR_ARRAY);
 
 		iterator++;
 	}

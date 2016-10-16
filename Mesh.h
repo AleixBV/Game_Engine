@@ -2,8 +2,9 @@
 #define __Mesh_H__
 
 #include "Globals.h"
+#include "Component.h"
 
-struct Mesh
+struct Mesh : public Component
 {
 public:
 	Mesh();

@@ -3,6 +3,7 @@
 #include "p2DynArray.h"
 #include "Globals.h"
 #include "Primitive.h"
+#include "GameObject.h"
 #include "Mesh.h"
 #include <vector>
 
@@ -23,8 +24,10 @@ public:
 	bool CleanUp();
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
+	GameObject* CreateNewGameObject();
 
-	std::vector<Mesh*> meshes;
+	GameObject* root;
+	std::vector<GameObject*> game_objects; //Temporary
 
 private:
 	void CreateSphere(const vec3& position, float radius);

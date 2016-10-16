@@ -2,8 +2,11 @@
 #define __ModuleGeometryLoader_H__
 
 #include "Module.h"
-#include "Mesh.h"
+#include "GameObject.h"
 #include <vector>
+
+struct aiScene;
+struct aiNode;
 
 class ModuleGeometryLoader : public Module
 {
@@ -17,7 +20,8 @@ public:
 	bool Init();
 	bool CleanUp();
 
-	bool LoadGeometryFromFile(const char* path, std::vector<Mesh*>* meshes);
+	bool RecursiveLoadGeometryFromFile(std::vector<GameObject*>* game_objects, const aiScene* scene, const aiNode* node);
+	bool LoadGeometryFromFile(const char* path, std::vector<GameObject*>* game_objects);
 };
 
 #endif

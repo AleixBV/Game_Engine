@@ -2,7 +2,7 @@
 
 Mesh::Mesh()
 {
-
+	type = MESH_COMPONENT;
 }
 
 Mesh::~Mesh()
