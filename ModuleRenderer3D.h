@@ -24,6 +24,8 @@ public:
 	void OnResize(int width, int height);
 	void DrawAllMeshes();
 	void DrawMesh(Mesh* mesh);
+	void ModuleRenderer3D::BeginDebugDraw();
+	void ModuleRenderer3D::EndDebugDraw();
 
 public:
 

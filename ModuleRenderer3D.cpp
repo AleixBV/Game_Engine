@@ -149,9 +149,9 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 	if (debug_draw == true)
 	{
-		//BeginDebugDraw();
+		BeginDebugDraw();
 		App->DebugDraw();
-		//EndDebugDraw();
+		EndDebugDraw();
 	}
 
 	App->editor->Draw();
@@ -210,4 +210,14 @@ void ModuleRenderer3D::DrawMesh(Mesh* mesh)
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 	glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
 	glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+void ModuleRenderer3D::BeginDebugDraw()
+{
+
+}
+
+void ModuleRenderer3D::EndDebugDraw()
+{
+
 }
