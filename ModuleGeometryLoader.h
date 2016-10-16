@@ -2,22 +2,8 @@
 #define __ModuleGeometryLoader_H__
 
 #include "Module.h"
+#include "Mesh.h"
 #include <vector>
-
-struct Mesh
-{
-public:
-	Mesh();
-	~Mesh();
-
-	uint id_vertices = 0; // id in VRAM
-	uint num_indices = 0;
-	uint* indices = nullptr;
-
-	uint id_indices = 0; // id in VRAM
-	uint num_vertices = 0;
-	float* vertices = nullptr;
-};
 
 class ModuleGeometryLoader : public Module
 {

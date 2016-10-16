@@ -192,11 +192,41 @@ void ModuleRenderer3D::DrawAllMeshes()
 	while (iterator != App->geometry_loader->meshes.end())
 	{
 		glColor3f(1.0f, 1.0f, 1.0f);
+
+		if ((*iterator).id_normals > 0)
+		{
+			glEnable(GL_LIGHTING);
+			glEnableClientState(GL_NORMAL_ARRAY);
+			glBindBuffer(GL_ARRAY_BUFFER, ((*iterator).id_normals));
+			glNormalPointer(GL_FLOAT, 0, NULL);
+		}
+
 		glEnableClientState(GL_VERTEX_ARRAY);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (*iterator).id_indices);
+
+		glBindBuffer(GL_ARRAY_BUFFER, ((*iterator).id_vertices));
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+		if ((*iterator).id_texture_coordinates > 0)
+		{
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glBindBuffer(GL_ARRAY_BUFFER, (*iterator).id_texture_coordinates);
+			glTexCoordPointer(3, GL_FLOAT, 0, NULL);
+		}
+
+		if ((*iterator).id_colors > 0)
+		{
+			glEnableClientState(GL_COLOR_ARRAY);
+			glBindBuffer(GL_ARRAY_BUFFER, (*iterator).id_colors);
+			glColorPointer(3, GL_FLOAT, 0, NULL);
+		}
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (*iterator).id_indices);
 		glDrawElements(GL_TRIANGLES, (*iterator).num_indices, GL_UNSIGNED_INT, NULL);
+
+		glDisableClientState(GL_NORMAL_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
 
 		iterator++;
 	}
@@ -205,11 +235,41 @@ void ModuleRenderer3D::DrawAllMeshes()
 void ModuleRenderer3D::DrawMesh(Mesh* mesh)
 {
 	glColor3f(1.0f, 1.0f, 1.0f);
+
+	if (mesh->id_normals > 0)
+	{
+		glEnable(GL_LIGHTING);
+		glEnableClientState(GL_NORMAL_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, (mesh->id_normals));
+		glNormalPointer(GL_FLOAT, 0, NULL);
+	}
+
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
+
+	glBindBuffer(GL_ARRAY_BUFFER, (mesh->id_vertices));
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+	if (mesh->id_texture_coordinates > 0)
+	{
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_texture_coordinates);
+		glTexCoordPointer(3, GL_FLOAT, 0, NULL);
+	}
+
+	if (mesh->id_colors > 0)
+	{
+		glEnableClientState(GL_COLOR_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_colors);
+		glColorPointer(3, GL_FLOAT, 0, NULL);
+	}
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
 	glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
+
+	glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
 }
 
 void ModuleRenderer3D::BeginDebugDraw()

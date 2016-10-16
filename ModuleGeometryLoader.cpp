@@ -11,17 +11,6 @@
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 #pragma comment (lib, "Glew/libx86/glew32.lib")
 
-Mesh::Mesh()
-{
-
-}
-
-Mesh::~Mesh()
-{
-	//RELEASE_ARRAY(indices);
-	//RELEASE_ARRAY(vertices);
-}
-
 //Constructor
 ModuleGeometryLoader::ModuleGeometryLoader(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -31,7 +20,20 @@ ModuleGeometryLoader::ModuleGeometryLoader(Application* app, bool start_enabled)
 //Destructor
 ModuleGeometryLoader::~ModuleGeometryLoader()
 {
+	std::vector<Mesh>::iterator iterator = App->geometry_loader->meshes.begin();
+	while (iterator != App->geometry_loader->meshes.end())
+	{
+		RELEASE_ARRAY((*iterator).indices);
+		RELEASE_ARRAY((*iterator).vertices);
+		if((*iterator).id_normals != 0)
+			RELEASE_ARRAY((*iterator).normals);
+		if ((*iterator).id_colors != 0)
+			RELEASE_ARRAY((*iterator).colors);
+		if ((*iterator).id_texture_coordinates != 0)
+			RELEASE_ARRAY((*iterator).texture_coordinates);
 
+		iterator++;
+	}
 }
 
 bool ModuleGeometryLoader::Init()
@@ -96,6 +98,42 @@ bool ModuleGeometryLoader::LoadGeometryFromFile(const char* path)
 			glGenBuffers(1, (GLuint*)&(mesh.id_indices));
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.id_indices);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * mesh.num_indices, mesh.indices, GL_STATIC_DRAW);
+
+			// copy normals
+
+			if (scene->mMeshes[i]->HasNormals())
+			{
+				mesh.normals = new float[mesh.num_vertices * 3];
+				memcpy(mesh.normals, scene->mMeshes[i]->mNormals, sizeof(float) * mesh.num_vertices * 3);
+
+				glGenBuffers(1, (GLuint*)&(mesh.id_normals));
+				glBindBuffer(GL_ARRAY_BUFFER, mesh.id_normals);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh.num_vertices, mesh.normals, GL_STATIC_DRAW);
+			}
+
+			// copy colors
+
+			if (scene->mMeshes[i]->HasVertexColors(0))
+			{
+				mesh.colors = new float[mesh.num_vertices * 3];
+				memcpy(mesh.colors, scene->mMeshes[i]->mColors, sizeof(float) * mesh.num_vertices * 3);
+
+				glGenBuffers(1, (GLuint*)&(mesh.id_colors));
+				glBindBuffer(GL_ARRAY_BUFFER, mesh.id_colors);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh.num_vertices, mesh.colors, GL_STATIC_DRAW);
+			}
+
+			// copy texture coordinates
+
+			if (scene->mMeshes[i]->HasTextureCoords(0))
+			{
+				mesh.texture_coordinates = new float[mesh.num_vertices * 3];
+				memcpy(mesh.texture_coordinates, scene->mMeshes[i]->mTextureCoords[0], sizeof(float) * mesh.num_vertices * 3);
+
+				glGenBuffers(1, (GLuint*)&(mesh.id_texture_coordinates));
+				glBindBuffer(GL_ARRAY_BUFFER, mesh.id_texture_coordinates);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh.num_vertices, mesh.texture_coordinates, GL_STATIC_DRAW);
+			}
 
 
 			meshes.push_back(mesh);
