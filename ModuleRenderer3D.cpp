@@ -3,6 +3,7 @@
 #include "ModuleRenderer3D.h"
 #include "GameObject.h"
 #include "Mesh.h"
+#include "ComponentTransform.h"
 #include <vector>
 #include "Glew/include/glew.h"
 #include "SDL/include/SDL_opengl.h"
@@ -196,6 +197,15 @@ void ModuleRenderer3D::DrawAllMeshes()
 	{
 		glColor3f(1.0f, 1.0f, 1.0f);
 
+		std::vector<Component*> components_transformation;
+		if ((*iterator)->FindComponent(&components_transformation, TRANSFORMATION_COMPONENT))
+		{
+			ComponentTransform* transformation = (ComponentTransform*)components_transformation[0];
+			float4x4 matrix = float4x4::FromTRS(transformation->position, transformation->rot, transformation->scale);
+			glPushMatrix();
+			glMultMatrixf(matrix.Transposed().ptr());
+		}
+
 		std::vector<Component*> components_mesh;
 		if ((*iterator)->FindComponent(&components_mesh, MESH_COMPONENT))
 		{
@@ -237,6 +247,12 @@ void ModuleRenderer3D::DrawAllMeshes()
 				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 				glDisableClientState(GL_COLOR_ARRAY);
 			}
+		}
+
+
+		if (components_transformation.capacity() > 0)
+		{
+			glPopMatrix();
 		}
 
 		iterator++;
