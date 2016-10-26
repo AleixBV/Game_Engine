@@ -8,18 +8,18 @@ class GameObject
 {
 public:
 	//Constructor
-	GameObject();
+	GameObject(GameObject* parent = nullptr, const char* name = "unnamed");
 
 	//Destructor
 	~GameObject();
 
-	GameObject* parent;
-	char name;
+	GameObject* parent = nullptr;
+	const char* name = "unnamed";
 	std::vector<Component*> components;
 	std::vector<GameObject*> children;
 
 	void Update();
-	bool FindComponent(std::vector<Component*>* components, ComponentType type);
+	bool FindComponent(std::vector<Component*>* components, ComponentType type) const;
 };
 
 #endif

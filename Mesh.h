@@ -10,6 +10,8 @@ public:
 	Mesh();
 	~Mesh();
 
+	const char* name = "unnamed";
+
 	uint id_vertices = 0; // id in VRAM
 	uint num_indices = 0;
 	uint* indices = nullptr;

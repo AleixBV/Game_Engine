@@ -24,10 +24,8 @@ public:
 	bool CleanUp();
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
-	GameObject* CreateNewGameObject();
 
-	GameObject* root;
-	std::vector<GameObject*> game_objects; //Temporary
+	GameObject* root = nullptr;
 
 private:
 	void CreateSphere(const vec3& position, float radius);

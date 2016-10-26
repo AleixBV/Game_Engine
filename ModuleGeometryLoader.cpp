@@ -45,12 +45,16 @@ bool ModuleGeometryLoader::CleanUp()
 	return true;
 }
 
-bool ModuleGeometryLoader::RecursiveLoadGeometryFromFile(std::vector<GameObject*>* game_objects, const aiScene* scene, const aiNode * node)
+GameObject* ModuleGeometryLoader::CreateNewGameObject(GameObject* parent, const char* name)
 {
-	bool ret = true;
+	GameObject* ret = new GameObject(parent, name);
 
-	GameObject* game_object = new GameObject();
+	return ret;
+}
 
+GameObject* ModuleGeometryLoader::RecursiveLoadGeometryFromFile(const aiScene* scene, const aiNode* node, GameObject* parent)
+{
+	GameObject* game_object = CreateNewGameObject(parent);
 
 	aiVector3D translation;
 	aiVector3D scaling;
@@ -161,27 +165,30 @@ bool ModuleGeometryLoader::RecursiveLoadGeometryFromFile(std::vector<GameObject*
 			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh->num_vertices, mesh->texture_coordinates, GL_STATIC_DRAW);
 		}
 
+		mesh->name = (scene->mMeshes[node->mMeshes[i]]->mName.length > 0) ? scene->mMeshes[node->mMeshes[i]]->mName.C_Str() : "unnamed";
+
 		game_object->components.push_back(mesh);
 	}
 
-	game_objects->push_back(game_object);
-
-	for (int z = 0; z < node->mNumChildren; z++)
+	if (node->mNumChildren != 0)
 	{
-		RecursiveLoadGeometryFromFile(game_objects, scene, node->mChildren[z]);
+		for (int z = 0; z < node->mNumChildren; z++)
+		{
+			game_object->children.push_back(RecursiveLoadGeometryFromFile(scene, node->mChildren[z], game_object));
+		}
 	}
-
-	return ret;
+	return game_object;
 }
 
-bool ModuleGeometryLoader::LoadGeometryFromFile(const char* path, std::vector<GameObject*>* game_objects)
+bool ModuleGeometryLoader::LoadGeometryFromFile(const char* path, GameObject* root)
 {
 	bool ret = true;
+
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
-		RecursiveLoadGeometryFromFile(game_objects, scene, scene->mRootNode);
+		root->children.push_back(RecursiveLoadGeometryFromFile(scene, scene->mRootNode));
 		aiReleaseImport(scene);
 	}
 	else
@@ -189,6 +196,5 @@ bool ModuleGeometryLoader::LoadGeometryFromFile(const char* path, std::vector<Ga
 		LOG("Error loading scene %s", path);
 		ret = false;
 	}
-
 	return ret;
 }

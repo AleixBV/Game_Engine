@@ -149,7 +149,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	floor.color.Set(255, 255, 255);
 	floor.Render();
 
-	DrawAllMeshes();
+	DrawGameObjects(App->scene_intro->root);
 
 	if (debug_draw == true)
 	{
@@ -188,17 +188,14 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glLoadIdentity();
 }
 
-void ModuleRenderer3D::DrawAllMeshes()
+void ModuleRenderer3D::DrawGameObjects(const GameObject* game_object)
 {
-	//Mesh iterator
-	std::vector<GameObject*>::iterator iterator = App->scene_intro->game_objects.begin();
-
-	while (iterator != App->scene_intro->game_objects.end())
+	if (game_object != nullptr)
 	{
 		glColor3f(1.0f, 1.0f, 1.0f);
 
 		std::vector<Component*> components_transformation;
-		if ((*iterator)->FindComponent(&components_transformation, TRANSFORMATION_COMPONENT))
+		if (game_object->FindComponent(&components_transformation, TRANSFORMATION_COMPONENT))
 		{
 			ComponentTransform* transformation = (ComponentTransform*)components_transformation[0];
 			float4x4 matrix = float4x4::FromTRS(transformation->position, transformation->rot, transformation->scale);
@@ -207,59 +204,31 @@ void ModuleRenderer3D::DrawAllMeshes()
 		}
 
 		std::vector<Component*> components_mesh;
-		if ((*iterator)->FindComponent(&components_mesh, MESH_COMPONENT))
+		if (game_object->FindComponent(&components_mesh, MESH_COMPONENT))
 		{
 			for (int i = 0; i < components_mesh.capacity(); i++)
 			{
 				Mesh* mesh = (Mesh*)components_mesh[i];
-				if (mesh->id_normals > 0)
-				{
-					glEnable(GL_LIGHTING);
-					glEnableClientState(GL_NORMAL_ARRAY);
-					glBindBuffer(GL_ARRAY_BUFFER, (mesh->id_normals));
-					glNormalPointer(GL_FLOAT, 0, NULL);
-				}
-
-				glEnableClientState(GL_VERTEX_ARRAY);
-
-				glBindBuffer(GL_ARRAY_BUFFER, (mesh->id_vertices));
-				glVertexPointer(3, GL_FLOAT, 0, NULL);
-
-				if (mesh->id_texture_coordinates > 0)
-				{
-					glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-					glBindBuffer(GL_ARRAY_BUFFER, mesh->id_texture_coordinates);
-					glTexCoordPointer(3, GL_FLOAT, 0, NULL);
-				}
-
-				if (mesh->id_colors > 0)
-				{
-					glEnableClientState(GL_COLOR_ARRAY);
-					glBindBuffer(GL_ARRAY_BUFFER, mesh->id_colors);
-					glColorPointer(3, GL_FLOAT, 0, NULL);
-				}
-
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
-				glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
-
-				glDisableClientState(GL_NORMAL_ARRAY);
-				glDisableClientState(GL_VERTEX_ARRAY);
-				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-				glDisableClientState(GL_COLOR_ARRAY);
+				DrawMesh(mesh);
 			}
 		}
 
+		if (game_object->children.size() != 0)
+		{
+			for (int i = 0; i < game_object->children.size(); i++)
+			{
+				DrawGameObjects(game_object->children[i]);
+			}
+		}
 
 		if (components_transformation.capacity() > 0)
 		{
 			glPopMatrix();
 		}
-
-		iterator++;
 	}
 }
 
-void ModuleRenderer3D::DrawMesh(Mesh* mesh)
+void ModuleRenderer3D::DrawMesh(const Mesh* mesh)
 {
 	glColor3f(1.0f, 1.0f, 1.0f);
 

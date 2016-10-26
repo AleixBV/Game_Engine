@@ -21,8 +21,10 @@ public:
 	bool CleanUp();
 
 	void OnResize(int width, int height);
-	void DrawAllMeshes();
-	void DrawMesh(Mesh* mesh);
+
+private:
+	void DrawGameObjects(const GameObject* game_object);
+	void DrawMesh(const Mesh* mesh);
 	void ModuleRenderer3D::BeginDebugDraw();
 	void ModuleRenderer3D::EndDebugDraw();
 

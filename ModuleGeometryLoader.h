@@ -20,8 +20,9 @@ public:
 	bool Init();
 	bool CleanUp();
 
-	bool RecursiveLoadGeometryFromFile(std::vector<GameObject*>* game_objects, const aiScene* scene, const aiNode* node);
-	bool LoadGeometryFromFile(const char* path, std::vector<GameObject*>* game_objects);
+	GameObject* CreateNewGameObject(GameObject* parent = nullptr, const char* name = "unnamed");
+	GameObject* RecursiveLoadGeometryFromFile(const aiScene* scene, const aiNode* node, GameObject* parent = nullptr);
+	bool LoadGeometryFromFile(const char* path, GameObject* root);
 };
 
 #endif

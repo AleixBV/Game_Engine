@@ -30,6 +30,8 @@ bool ModuleSceneIntro::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
+	root = new GameObject(nullptr, "root");
+
 	return ret;
 }
 
@@ -44,12 +46,7 @@ bool ModuleSceneIntro::CleanUp()
 	}
 	primitives.clear();
 
-	std::vector<GameObject*>::iterator iterator = game_objects.begin();
-	while (iterator != game_objects.end())
-	{
-		delete(*iterator);
-		iterator++;
-	}
+	RELEASE(root);
 
 	return true;
 }
@@ -70,7 +67,7 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 	{
-		App->geometry_loader->LoadGeometryFromFile("Game/Assets/Town/Street environment_V01.fbx", &game_objects);
+		App->geometry_loader->LoadGeometryFromFile("Game/Assets/Town/Street environment_V01.fbx", root);
 	}
 	
 	/*
@@ -150,11 +147,6 @@ update_status ModuleSceneIntro::Update(float dt)
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
 
-}
-
-GameObject * ModuleSceneIntro::CreateNewGameObject()
-{
-	return nullptr;
 }
 
 void ModuleSceneIntro::CreateCube(const vec3& position, const vec3& size, float angle, const vec3& rotAxis)
