@@ -21,12 +21,17 @@ public:
 
 	void Draw();
 
+private:
+	bool capturing_mouse = false;
+	bool capturing_keyboard = false;
+
 	bool show_test_window;
 	bool show_info_window;
 	bool show_config_window;
 	bool show_console_window;
 	bool show_about_window;
 
+public:
 	uint fps_and_ms_log_size;
 	std::vector<float> fps_log;
 	std::vector<float> ms_log;
@@ -43,6 +48,9 @@ public:
 	int width;
 	int height;
 
+	void CaptureInput(SDL_Event* input);
+	bool CapturingMouse() const;
+	bool CapturingKeyboard() const;
 	void ShowInfoWindow(bool* show_window);
 	void ShowConsoleWindow(bool* show_window);
 	void ShowConfigWindow(bool* show_window);

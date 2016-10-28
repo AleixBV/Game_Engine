@@ -343,7 +343,7 @@ void ModulePhysics3D::DebugDraw()
 		item = item->next;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
 	{
 		_Sphere s(1);
 		s.SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);

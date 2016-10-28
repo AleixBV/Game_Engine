@@ -54,6 +54,10 @@ update_status ModuleEditor::PreUpdate(float dt)
 {
 	ImGui_ImplSdlGL3_NewFrame(App->window->window);
 
+	ImGuiIO& io = ImGui::GetIO();
+	capturing_keyboard = io.WantCaptureKeyboard;
+	capturing_mouse = io.WantCaptureMouse;
+
 	return UPDATE_CONTINUE;
 }
 
@@ -122,21 +126,37 @@ update_status ModuleEditor::Update(float dt)
 
 		if (ImGui::BeginMenu("View"))
 		{
-			ImGui::MenuItem("Test Window", NULL, &show_test_window);
+			ImGui::MenuItem("Test Window", "9", &show_test_window);
 
-			ImGui::MenuItem("Information Window", NULL, &show_info_window);
+			ImGui::MenuItem("Information Window", "1", &show_info_window);
 
-			ImGui::MenuItem("Configuration Window", NULL, &show_config_window);
+			ImGui::MenuItem("Configuration Window", "2", &show_config_window);
 
-			ImGui::MenuItem("Console Window", NULL, &show_console_window);
+			ImGui::MenuItem("Console Window", "3", &show_console_window);
 
-			ImGui::MenuItem("About Window", NULL, &show_about_window);
+			ImGui::MenuItem("About Window", "4", &show_about_window);
 
 			ImGui::EndMenu();
 		}
 
 		ImGui::EndMainMenuBar();
 	}
+
+	if (App->input->GetKey(SDL_SCANCODE_9) == KEY_DOWN)
+		show_test_window = !show_test_window;
+
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+		show_info_window = !show_info_window;
+
+	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
+		show_config_window = !show_config_window;
+
+	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
+		show_console_window = !show_console_window;
+
+	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
+		show_about_window = !show_about_window;
+
 	return ret;
 }
 
@@ -177,6 +197,20 @@ void ModuleEditor::UpdateMsLog(float new_ms)
 	}
 
 	ms_log.push_back(new_ms);
+}
+
+void ModuleEditor::CaptureInput(SDL_Event* input)
+{
+	ImGui_ImplSdlGL3_ProcessEvent(input);
+}
+
+bool ModuleEditor::CapturingMouse() const
+{
+	return capturing_mouse;
+}
+bool ModuleEditor::CapturingKeyboard() const
+{
+	return capturing_keyboard;
 }
 
 void ModuleEditor::ShowInfoWindow(bool* show_window)
@@ -267,11 +301,13 @@ void ModuleEditor::ShowConfigWindow(bool* show_window)
 
 	if (ImGui::CollapsingHeader("Application"))
 	{
-		static char* title = (char*)App->window->GetTitle();
+		static char title[100];
+		strcpy_s(title, 100, App->window->GetTitle());
 		if (ImGui::InputText("Application Name", title, 100, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
 			App->window->SetTitle(title);
 
-		static char* organization = (char*)App->window->GetOrganization();
+		static char organization[100];
+		strcpy_s(organization, 100, App->window->GetOrganization());
 		if (ImGui::InputText("Organization Name", organization, 100, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
 			App->window->SetOrganization(organization);
 
