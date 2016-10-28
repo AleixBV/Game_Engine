@@ -45,16 +45,9 @@ bool ModuleGeometryLoader::CleanUp()
 	return true;
 }
 
-GameObject* ModuleGeometryLoader::CreateNewGameObject(GameObject* parent, const char* name)
-{
-	GameObject* ret = new GameObject(parent, name);
-
-	return ret;
-}
-
 GameObject* ModuleGeometryLoader::RecursiveLoadGeometryFromFile(const aiScene* scene, const aiNode* node, GameObject* parent)
 {
-	GameObject* game_object = CreateNewGameObject(parent);
+	GameObject* game_object = App->scene->CreateNewGameObject(parent);
 
 	aiVector3D translation;
 	aiVector3D scaling;

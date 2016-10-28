@@ -1,6 +1,6 @@
 #include "Globals.h"
 #include "Application.h"
-#include "ModuleSceneIntro.h"
+#include "ModuleScene.h"
 #include "Primitive.h"
 #include "PhysBody3D.h"
 #include "ModuleGeometryLoader.h"
@@ -12,15 +12,15 @@
 #pragma comment (lib, "Glew/libx86/glew32.lib")
 
 
-ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 }
 
-ModuleSceneIntro::~ModuleSceneIntro()
+ModuleScene::~ModuleScene()
 {}
 
 // Load assets
-bool ModuleSceneIntro::Start()
+bool ModuleScene::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
@@ -36,7 +36,7 @@ bool ModuleSceneIntro::Start()
 }
 
 // Load assets
-bool ModuleSceneIntro::CleanUp()
+bool ModuleScene::CleanUp()
 {
 	LOG("Unloading Intro scene");
 
@@ -52,7 +52,7 @@ bool ModuleSceneIntro::CleanUp()
 }
 
 // Update
-update_status ModuleSceneIntro::Update(float dt)
+update_status ModuleScene::Update(float dt)
 {
 	for (p2List_item<Primitive*>* tmp = primitives.getFirst(); tmp != NULL; tmp = tmp->next)
 	{
@@ -144,12 +144,19 @@ update_status ModuleSceneIntro::Update(float dt)
 	return UPDATE_CONTINUE;
 }
 
-void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
+void ModuleScene::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
 
 }
 
-void ModuleSceneIntro::CreateCube(const vec3& position, const vec3& size, float angle, const vec3& rotAxis)
+GameObject* ModuleScene::CreateNewGameObject(GameObject* parent, const char* name)
+{
+	GameObject* ret = new GameObject(parent, name);
+
+	return ret;
+}
+
+void ModuleScene::CreateCube(const vec3& position, const vec3& size, float angle, const vec3& rotAxis)
 {
 	_Cube* c = new _Cube();
 	c->size.Set(size.x, size.y, size.z);
@@ -165,7 +172,7 @@ void ModuleSceneIntro::CreateCube(const vec3& position, const vec3& size, float 
 
 }
 
-void ModuleSceneIntro::CreateSphere(const vec3& position, float radius)
+void ModuleScene::CreateSphere(const vec3& position, float radius)
 {
 	_Sphere* c = new _Sphere();
 	c->radius = radius;

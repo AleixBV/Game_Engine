@@ -20,7 +20,6 @@ public:
 	bool Init();
 	bool CleanUp();
 
-	GameObject* CreateNewGameObject(GameObject* parent = nullptr, const char* name = "unnamed");
 	GameObject* RecursiveLoadGeometryFromFile(const aiScene* scene, const aiNode* node, GameObject* parent = nullptr);
 	bool LoadGeometryFromFile(const char* path, GameObject* root);
 };

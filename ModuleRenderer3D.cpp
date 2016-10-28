@@ -149,7 +149,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	floor.color.Set(255, 255, 255);
 	floor.Render();
 
-	DrawGameObjects(App->scene_intro->root);
+	DrawGameObjects(App->scene->root);
 
 	if (debug_draw == true)
 	{
