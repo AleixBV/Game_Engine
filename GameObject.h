@@ -17,6 +17,7 @@ public:
 	const char* name = "unnamed";
 	std::vector<Component*> components;
 	std::vector<GameObject*> children;
+	bool debug_draw;
 
 	void Update();
 	bool FindComponent(std::vector<Component*>* components, ComponentType type) const;

@@ -2,6 +2,7 @@
 
 GameObject::GameObject(GameObject* parent, const char* name) : parent(parent), name(name)
 {
+	debug_draw = false;
 }
 
 GameObject::~GameObject()

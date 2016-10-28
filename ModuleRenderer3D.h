@@ -24,7 +24,7 @@ public:
 
 private:
 	void DrawGameObjects(const GameObject* game_object);
-	void DrawMesh(const Mesh* mesh);
+	void DrawMesh(const Mesh* mesh, bool debug_draw = false);
 	void ModuleRenderer3D::BeginDebugDraw();
 	void ModuleRenderer3D::EndDebugDraw();
 

@@ -209,7 +209,7 @@ void ModuleRenderer3D::DrawGameObjects(const GameObject* game_object)
 			for (int i = 0; i < components_mesh.capacity(); i++)
 			{
 				Mesh* mesh = (Mesh*)components_mesh[i];
-				DrawMesh(mesh);
+				DrawMesh(mesh, game_object->debug_draw);
 			}
 		}
 
@@ -228,7 +228,7 @@ void ModuleRenderer3D::DrawGameObjects(const GameObject* game_object)
 	}
 }
 
-void ModuleRenderer3D::DrawMesh(const Mesh* mesh)
+void ModuleRenderer3D::DrawMesh(const Mesh* mesh, bool debug_draw)
 {
 	glColor3f(1.0f, 1.0f, 1.0f);
 
@@ -261,6 +261,14 @@ void ModuleRenderer3D::DrawMesh(const Mesh* mesh)
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
 	glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
+
+	if (debug_draw)
+	{
+		glColor3f(0.0f, 1.0f, 0.0f);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
 
 	glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
