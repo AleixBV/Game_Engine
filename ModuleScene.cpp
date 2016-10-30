@@ -17,7 +17,9 @@ ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, sta
 }
 
 ModuleScene::~ModuleScene()
-{}
+{
+	RELEASE(root);
+}
 
 // Load assets
 bool ModuleScene::Start()

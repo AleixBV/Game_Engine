@@ -1,3 +1,4 @@
+#include "Globals.h"
 #include "GameObject.h"
 #include "ComponentTransform.h"
 
@@ -8,6 +9,14 @@ GameObject::GameObject(GameObject* parent, const char* name) : parent(parent), n
 
 GameObject::~GameObject()
 {
+	for (std::vector<GameObject*>::iterator i = children.begin(); i != children.end(); i++)
+	{
+		RELEASE((*i));
+	}
+	for (std::vector<Component*>::iterator i = components.begin(); i != components.end(); i++)
+	{
+		RELEASE((*i));
+	}
 }
 
 void GameObject::Update()

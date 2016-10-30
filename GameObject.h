@@ -18,7 +18,7 @@ class GameObject
 {
 public:
 	//Constructor
-	GameObject(GameObject* parent = nullptr, const char* name = "unnamed");
+	GameObject(GameObject* parent = nullptr, const char* name = "Unnamed");
 
 	//Destructor
 	~GameObject();
