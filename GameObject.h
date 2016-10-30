@@ -3,6 +3,16 @@
 
 #include <vector>
 #include "Component.h"
+#include <string>
+#include "MathGeoLib/MathBuildConfig.h"
+#include "MathGeoLib/MathGeoLib.h"
+
+enum WireframeTypeDraw
+{
+	WIREFRAME_NORMAL_DRAW = 0,
+	WIREFRAME_SELECTED_DRAW,
+	WIREFRAME_PARENT_SELECTED_DRAW
+};
 
 class GameObject
 {
@@ -14,13 +24,14 @@ public:
 	~GameObject();
 
 	GameObject* parent = nullptr;
-	const char* name = "unnamed";
+	std::string name;
 	std::vector<Component*> components;
 	std::vector<GameObject*> children;
-	bool debug_draw;
+	WireframeTypeDraw type_draw;
 
 	void Update();
 	bool FindComponent(std::vector<Component*>* components, ComponentType type) const;
+	bool GetPosition(float3* pos);
 };
 
 #endif

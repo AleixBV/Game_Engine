@@ -47,8 +47,6 @@ bool ModuleGeometryLoader::CleanUp()
 
 GameObject* ModuleGeometryLoader::RecursiveLoadGeometryFromFile(const aiScene* scene, const aiNode* node, GameObject* parent)
 {
-	GameObject* game_object = App->scene->CreateNewGameObject(parent);
-
 	aiVector3D translation;
 	aiVector3D scaling;
 	aiQuaternion rotation;
@@ -56,10 +54,6 @@ GameObject* ModuleGeometryLoader::RecursiveLoadGeometryFromFile(const aiScene* s
 	float3 pos(translation.x, translation.y, translation.z);
 	float3 scale(scaling.x, scaling.y, scaling.z);
 	Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
-
-	ComponentTransform* component_transform = new ComponentTransform(pos, scale, rot);
-	game_object->components.push_back(component_transform);
-
 
 	static std::string name;
 	name = (node->mName.length > 0) ? node->mName.C_Str() : "Unnamed";
@@ -84,6 +78,10 @@ GameObject* ModuleGeometryLoader::RecursiveLoadGeometryFromFile(const aiScene* s
 			i = -1; // start over!
 		}
 	}
+
+	GameObject* game_object = App->scene->CreateNewGameObject(parent, node->mName.C_Str());
+	ComponentTransform* component_transform = new ComponentTransform(pos, scale, rot);
+	game_object->components.push_back(component_transform);
 
 	// Use scene->mNumMeshes to iterate on scene->mMeshes array
 	for (int x = node->mNumMeshes, i = 0; x > 0; x--, i++)
@@ -158,7 +156,7 @@ GameObject* ModuleGeometryLoader::RecursiveLoadGeometryFromFile(const aiScene* s
 			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh->num_vertices, mesh->texture_coordinates, GL_STATIC_DRAW);
 		}
 
-		mesh->name = (scene->mMeshes[node->mMeshes[i]]->mName.length > 0) ? scene->mMeshes[node->mMeshes[i]]->mName.C_Str() : "unnamed";
+		mesh->name = (scene->mMeshes[node->mMeshes[i]]->mName.length > 0) ? scene->mMeshes[node->mMeshes[i]]->mName.C_Str() : "Unnamed";
 
 		game_object->components.push_back(mesh);
 	}

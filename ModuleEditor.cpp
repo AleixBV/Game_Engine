@@ -26,6 +26,7 @@ bool ModuleEditor::Init()
 	ImGui_ImplSdlGL3_Init(App->window->window);
 
 	show_test_window = false;
+	show_hierarchy_window = false;
 	show_info_window = false;
 	show_config_window = false;
 	show_console_window = false;
@@ -69,6 +70,12 @@ update_status ModuleEditor::Update(float dt)
 	{
 		ImGui::SetNextWindowPos(ImVec2(1000, 100), ImGuiSetCond_FirstUseEver);
 		ImGui::ShowTestWindow(&show_test_window);
+	}
+
+	if (show_hierarchy_window)
+	{
+		ImGui::SetNextWindowPos(ImVec2(0, 20), ImGuiSetCond_FirstUseEver);
+		ShowHierarchyWindow(&show_hierarchy_window);
 	}
 
 	if (show_info_window)
@@ -128,13 +135,15 @@ update_status ModuleEditor::Update(float dt)
 		{
 			ImGui::MenuItem("Test Window", "9", &show_test_window);
 
-			ImGui::MenuItem("Information Window", "1", &show_info_window);
+			ImGui::MenuItem("Hierarchy Window", "1", &show_hierarchy_window);
 
-			ImGui::MenuItem("Configuration Window", "2", &show_config_window);
+			ImGui::MenuItem("Information Window", "2", &show_info_window);
 
-			ImGui::MenuItem("Console Window", "3", &show_console_window);
+			ImGui::MenuItem("Configuration Window", "3", &show_config_window);
 
-			ImGui::MenuItem("About Window", "4", &show_about_window);
+			ImGui::MenuItem("Console Window", "4", &show_console_window);
+
+			ImGui::MenuItem("About Window", "5", &show_about_window);
 
 			ImGui::EndMenu();
 		}
@@ -146,15 +155,18 @@ update_status ModuleEditor::Update(float dt)
 		show_test_window = !show_test_window;
 
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
-		show_info_window = !show_info_window;
+		show_hierarchy_window = !show_hierarchy_window;
 
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
-		show_config_window = !show_config_window;
+		show_info_window = !show_info_window;
 
 	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
-		show_console_window = !show_console_window;
+		show_config_window = !show_config_window;
 
 	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
+		show_console_window = !show_console_window;
+
+	if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)
 		show_about_window = !show_about_window;
 
 	return ret;
@@ -199,7 +211,7 @@ void ModuleEditor::UpdateMsLog(float new_ms)
 	ms_log.push_back(new_ms);
 }
 
-void ModuleEditor::CaptureInput(SDL_Event* input)
+void ModuleEditor::CaptureInput(SDL_Event* input) const
 {
 	ImGui_ImplSdlGL3_ProcessEvent(input);
 }
@@ -211,6 +223,47 @@ bool ModuleEditor::CapturingMouse() const
 bool ModuleEditor::CapturingKeyboard() const
 {
 	return capturing_keyboard;
+}
+
+void ModuleEditor::SetWireframeTypeDrawToChilds(GameObject* root, WireframeTypeDraw wireframe_type_draw)
+{
+	for (std::vector<GameObject*>::iterator i = root->children.begin(); i != root->children.end(); i++)
+	{
+		(*i)->type_draw = wireframe_type_draw;
+		for (int x = 0; x < (*i)->children.size(); x++)
+		{
+			(*i)->children[x]->type_draw = wireframe_type_draw;
+			SetWireframeTypeDrawToChilds((*i)->children[x], wireframe_type_draw);
+		}
+	}
+}
+
+void ModuleEditor::ShowHierarchyWindow(bool* show_hierarchy)
+{
+	if (!ImGui::Begin("Hierarchy", show_hierarchy, ImVec2(300, 750)))
+	{
+		ImGui::End();
+		return;
+	}
+
+	if (ImGui::TreeNode(App->scene->root->name.data()))
+	{
+		AddGameObjectsToHierarchy(App->scene->root);
+		ImGui::TreePop();
+
+		if (new_item_clicked && game_objetc_selected != nullptr)
+		{
+			App->scene->root->type_draw = WIREFRAME_NORMAL_DRAW;
+			SetWireframeTypeDrawToChilds(App->scene->root, WIREFRAME_NORMAL_DRAW);
+
+			game_objetc_selected->type_draw = WIREFRAME_SELECTED_DRAW;
+			SetWireframeTypeDrawToChilds(game_objetc_selected, WIREFRAME_PARENT_SELECTED_DRAW);
+
+			new_item_clicked = false;
+		}
+	}
+
+	ImGui::End();
 }
 
 void ModuleEditor::ShowInfoWindow(bool* show_window)
@@ -355,4 +408,42 @@ void ModuleEditor::ShowConsoleWindow(bool* show_window)
 	//ImGui::Begin("Console", show_window);
 	
 	//ImGui::End();
+}
+
+void ModuleEditor::AddGameObjectsToHierarchy(GameObject* game_object)
+{
+	for (std::vector<GameObject*>::iterator i = game_object->children.begin(); i != game_object->children.end(); i++)
+	{
+		uint flags = 0;
+		if ((*i)->children.size() == 0)
+			flags = ImGuiTreeNodeFlags_Leaf;
+		if (ImGui::TreeNodeEx((*i)->name.data(), flags))
+		{
+			AddGameObjectsToHierarchy(*i);
+			ImGui::TreePop();
+		}
+
+		if (ImGui::IsItemHovered())
+		{
+			if (ImGui::IsMouseClicked(0))
+			{
+				if (game_objetc_selected != (*i))
+				{
+					new_item_clicked = true;
+					game_objetc_selected = (*i);
+				}
+			}
+
+			if (ImGui::IsMouseDoubleClicked(0))
+			{
+				float3 position;
+				if ((*i)->GetPosition(&position))
+				{
+					App->camera->LookAt(vec3(position.x, position.y, position.z)); //get the global position is nedeed
+					App->camera->Position = vec3(position.x, position.y, position.z) + App->camera->Z * 50.0f;
+					App->camera->Reference = vec3(position.x, position.y, position.z) + App->camera->Z * 50.0f;
+				}
+			}
+		}
+	}
 }

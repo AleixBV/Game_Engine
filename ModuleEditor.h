@@ -26,6 +26,7 @@ private:
 	bool capturing_keyboard = false;
 
 	bool show_test_window;
+	bool show_hierarchy_window;
 	bool show_info_window;
 	bool show_config_window;
 	bool show_console_window;
@@ -47,13 +48,21 @@ public:
 	float brightness;
 	int width;
 	int height;
+	GameObject* game_objetc_selected = nullptr;
+	bool new_item_clicked = false;
 
-	void CaptureInput(SDL_Event* input);
+	void CaptureInput(SDL_Event* input) const;
 	bool CapturingMouse() const;
 	bool CapturingKeyboard() const;
+	void SetWireframeTypeDrawToChilds(GameObject* root, WireframeTypeDraw wireframe_type_draw);
+
+private:
+	void ShowHierarchyWindow(bool* show_hierarchy);
 	void ShowInfoWindow(bool* show_window);
 	void ShowConsoleWindow(bool* show_window);
 	void ShowConfigWindow(bool* show_window);
+
+	void AddGameObjectsToHierarchy(GameObject* game_object);
 };
 
 #endif

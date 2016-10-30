@@ -1,8 +1,9 @@
 #include "GameObject.h"
+#include "ComponentTransform.h"
 
 GameObject::GameObject(GameObject* parent, const char* name) : parent(parent), name(name)
 {
-	debug_draw = false;
+	type_draw = WIREFRAME_NORMAL_DRAW;
 }
 
 GameObject::~GameObject()
@@ -30,4 +31,17 @@ bool GameObject::FindComponent(std::vector<Component*>* components_to_return, Co
 	}
 
 	return false;
+}
+
+bool GameObject::GetPosition(float3* pos)
+{
+	bool ret = false;
+	std::vector<Component*> transformation;
+	if (FindComponent(&transformation, TRANSFORMATION_COMPONENT))
+	{
+		*pos = ((ComponentTransform*)transformation[0])->position;
+		ret = true;
+	}
+
+	return ret;
 }

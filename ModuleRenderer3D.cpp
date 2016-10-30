@@ -209,7 +209,7 @@ void ModuleRenderer3D::DrawGameObjects(const GameObject* game_object)
 			for (int i = 0; i < components_mesh.capacity(); i++)
 			{
 				Mesh* mesh = (Mesh*)components_mesh[i];
-				DrawMesh(mesh, game_object->debug_draw);
+				DrawMesh(mesh, game_object->type_draw);
 			}
 		}
 
@@ -228,7 +228,7 @@ void ModuleRenderer3D::DrawGameObjects(const GameObject* game_object)
 	}
 }
 
-void ModuleRenderer3D::DrawMesh(const Mesh* mesh, bool debug_draw)
+void ModuleRenderer3D::DrawMesh(const Mesh* mesh, WireframeTypeDraw type_draw)
 {
 	glColor3f(1.0f, 1.0f, 1.0f);
 
@@ -262,9 +262,16 @@ void ModuleRenderer3D::DrawMesh(const Mesh* mesh, bool debug_draw)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
 	glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
 
-	if (debug_draw)
+	if (type_draw == WIREFRAME_SELECTED_DRAW)
 	{
 		glColor3f(0.0f, 1.0f, 0.0f);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+	else if(type_draw == WIREFRAME_PARENT_SELECTED_DRAW)
+	{
+		glColor3f(0.0f, 1.0f, 1.0f);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
