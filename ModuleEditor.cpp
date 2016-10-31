@@ -27,6 +27,7 @@ bool ModuleEditor::Init()
 
 	show_test_window = false;
 	show_hierarchy_window = false;
+	show_inspector_window = false;
 	show_info_window = false;
 	show_config_window = false;
 	show_console_window = false;
@@ -76,6 +77,12 @@ update_status ModuleEditor::Update(float dt)
 	{
 		ImGui::SetNextWindowPos(ImVec2(0, 20), ImGuiSetCond_FirstUseEver);
 		ShowHierarchyWindow(&show_hierarchy_window);
+	}
+
+	if (show_inspector_window)
+	{
+		ImGui::SetNextWindowPos(ImVec2(SCREEN_WIDTH * SCREEN_SIZE - 300, 20), ImGuiSetCond_FirstUseEver);
+		ShowInspectorWindow(&show_inspector_window);
 	}
 
 	if (show_info_window)
@@ -137,13 +144,15 @@ update_status ModuleEditor::Update(float dt)
 
 			ImGui::MenuItem("Hierarchy Window", "1", &show_hierarchy_window);
 
-			ImGui::MenuItem("Information Window", "2", &show_info_window);
+			ImGui::MenuItem("Inspector Window", "2", &show_inspector_window);
 
-			ImGui::MenuItem("Configuration Window", "3", &show_config_window);
+			ImGui::MenuItem("Information Window", "3", &show_info_window);
 
-			ImGui::MenuItem("Console Window", "4", &show_console_window);
+			ImGui::MenuItem("Configuration Window", "4", &show_config_window);
 
-			ImGui::MenuItem("About Window", "5", &show_about_window);
+			ImGui::MenuItem("Console Window", "5", &show_console_window);
+
+			ImGui::MenuItem("About Window", "6", &show_about_window);
 
 			ImGui::EndMenu();
 		}
@@ -158,15 +167,18 @@ update_status ModuleEditor::Update(float dt)
 		show_hierarchy_window = !show_hierarchy_window;
 
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
-		show_info_window = !show_info_window;
+		show_inspector_window = !show_inspector_window;
 
 	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
-		show_config_window = !show_config_window;
+		show_info_window = !show_info_window;
 
 	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
-		show_console_window = !show_console_window;
+		show_config_window = !show_config_window;
 
 	if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)
+		show_console_window = !show_console_window;
+
+	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
 		show_about_window = !show_about_window;
 
 	return ret;
@@ -251,16 +263,32 @@ void ModuleEditor::ShowHierarchyWindow(bool* show_hierarchy)
 		AddGameObjectsToHierarchy(App->scene->root);
 		ImGui::TreePop();
 
-		if (new_item_clicked && game_objetc_selected != nullptr)
+		if (new_item_clicked && game_object_selected != nullptr)
 		{
 			App->scene->root->type_draw = WIREFRAME_NORMAL_DRAW;
 			SetWireframeTypeDrawToChilds(App->scene->root, WIREFRAME_NORMAL_DRAW);
 
-			game_objetc_selected->type_draw = WIREFRAME_SELECTED_DRAW;
-			SetWireframeTypeDrawToChilds(game_objetc_selected, WIREFRAME_PARENT_SELECTED_DRAW);
+			game_object_selected->type_draw = WIREFRAME_SELECTED_DRAW;
+			SetWireframeTypeDrawToChilds(game_object_selected, WIREFRAME_PARENT_SELECTED_DRAW);
 
 			new_item_clicked = false;
 		}
+	}
+
+	ImGui::End();
+}
+
+void ModuleEditor::ShowInspectorWindow(bool* show_inspector)
+{
+	if (!ImGui::Begin("Inspector", show_inspector, ImVec2(300, 750)))
+	{
+		ImGui::End();
+		return;
+	}
+
+	if (game_object_selected != nullptr)
+	{
+		
 	}
 
 	ImGui::End();
@@ -427,10 +455,10 @@ void ModuleEditor::AddGameObjectsToHierarchy(GameObject* game_object)
 		{
 			if (ImGui::IsMouseClicked(0))
 			{
-				if (game_objetc_selected != (*i))
+				if (game_object_selected != (*i))
 				{
 					new_item_clicked = true;
-					game_objetc_selected = (*i);
+					game_object_selected = (*i);
 				}
 			}
 

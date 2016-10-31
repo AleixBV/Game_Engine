@@ -31,6 +31,7 @@ private:
 	bool show_config_window;
 	bool show_console_window;
 	bool show_about_window;
+	bool show_inspector_window;
 
 public:
 	uint fps_and_ms_log_size;
@@ -48,7 +49,7 @@ public:
 	float brightness;
 	int width;
 	int height;
-	GameObject* game_objetc_selected = nullptr;
+	GameObject* game_object_selected = nullptr;
 	bool new_item_clicked = false;
 
 	void CaptureInput(SDL_Event* input) const;
@@ -58,6 +59,7 @@ public:
 
 private:
 	void ShowHierarchyWindow(bool* show_hierarchy);
+	void ShowInspectorWindow(bool* show_inspector);
 	void ShowInfoWindow(bool* show_window);
 	void ShowConsoleWindow(bool* show_window);
 	void ShowConfigWindow(bool* show_window);
