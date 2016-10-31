@@ -31,7 +31,11 @@ public:
 
 	void Update();
 	bool FindComponent(std::vector<Component*>* components, ComponentType type) const;
-	bool GetPosition(float3* pos);
+	bool GetLocalPosition(float3* pos) const;
+	bool GetGlobalPosition(float3* pos) const;
+
+private:
+	bool GetGlobalTransform(float4x4& transform) const;
 };
 
 #endif

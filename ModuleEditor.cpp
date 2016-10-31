@@ -437,9 +437,9 @@ void ModuleEditor::AddGameObjectsToHierarchy(GameObject* game_object)
 			if (ImGui::IsMouseDoubleClicked(0))
 			{
 				float3 position;
-				if ((*i)->GetPosition(&position))
+				if ((*i)->GetGlobalPosition(&position))
 				{
-					App->camera->LookAt(vec3(position.x, position.y, position.z)); //get the global position is nedeed
+					App->camera->LookAt(vec3(position.x, position.y, position.z));
 					App->camera->Position = vec3(position.x, position.y, position.z) + App->camera->Z * 50.0f;
 					App->camera->Reference = vec3(position.x, position.y, position.z) + App->camera->Z * 50.0f;
 				}

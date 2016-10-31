@@ -42,13 +42,55 @@ bool GameObject::FindComponent(std::vector<Component*>* components_to_return, Co
 	return false;
 }
 
-bool GameObject::GetPosition(float3* pos)
+bool GameObject::GetLocalPosition(float3* pos) const
 {
 	bool ret = false;
 	std::vector<Component*> transformation;
 	if (FindComponent(&transformation, TRANSFORMATION_COMPONENT))
 	{
 		*pos = ((ComponentTransform*)transformation[0])->position;
+		ret = true;
+	}
+
+	return ret;
+}
+
+bool GameObject::GetGlobalPosition(float3* pos) const
+{
+	bool ret = false;
+	std::vector<Component*> components_transformation;
+	if (FindComponent(&components_transformation, TRANSFORMATION_COMPONENT))
+	{
+		ComponentTransform* transformation = (ComponentTransform*)components_transformation[0];
+		float4x4 transform = float4x4::FromTRS(transformation->position, transformation->rot, transformation->scale);
+
+		if (parent != nullptr)
+		{
+			float3 parent_pos;
+			parent->GetGlobalTransform(transform);
+		}
+
+		*pos = transform.TranslatePart();
+
+		ret = true;
+	}
+
+	return ret;
+}
+
+bool GameObject::GetGlobalTransform(float4x4& transform) const
+{
+	bool ret = false;
+	std::vector<Component*> components_transformation;
+	if (FindComponent(&components_transformation, TRANSFORMATION_COMPONENT))
+	{
+		ComponentTransform* transformation = (ComponentTransform*)components_transformation[0];
+		transform = transform * (float4x4::FromTRS(transformation->position, transformation->rot, transformation->scale));
+
+		if (parent != nullptr)
+			parent->GetGlobalTransform(transform);
+
+
 		ret = true;
 	}
 
