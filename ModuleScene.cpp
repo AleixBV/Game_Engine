@@ -64,12 +64,12 @@ update_status ModuleScene::Update(float dt)
 
 	//if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 	//{
-	//	App->geometry_loader->LoadGeometryFromFile("Game/Assets/warrior.fbx");
+	//	App->geometry_loader->LoadGeometryFromFile("Assets/warrior.fbx");
 	//}
 
 	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 	{
-		App->geometry_loader->LoadGeometryFromFile("Game/Assets/Town/Street environment_V01.fbx", root);
+		App->geometry_loader->LoadGeometryFromFile("Assets/Town/Street environment_V01.fbx", root);
 	}
 	
 	/*

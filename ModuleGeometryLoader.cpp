@@ -180,7 +180,7 @@ GameObject* ModuleGeometryLoader::RecursiveLoadGeometryFromFile(const aiScene* s
 
 			if (path.length > 0)
 			{
-				std::string real_path = "../Game/Assets/Town/";
+				std::string real_path = "Assets/Town/";
 				int size = real_path.size();
 				real_path += path.data; 
 				real_path.erase(size, real_path.find_last_of("\\") - size + 1);
