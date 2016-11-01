@@ -52,6 +52,8 @@ bool ModuleGeometryLoader::CleanUp()
 	// detach log stream
 	aiDetachAllLogStreams();
 
+	ilShutDown();
+
 	return true;
 }
 
