@@ -65,6 +65,7 @@ private:
 	void ShowConfigWindow(bool* show_window);
 
 	void AddGameObjectsToHierarchy(GameObject* game_object);
+	void CheckClickInHierarchy(GameObject* game_object);
 };
 
 #endif

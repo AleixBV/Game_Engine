@@ -518,30 +518,36 @@ void ModuleEditor::AddGameObjectsToHierarchy(GameObject* game_object)
 			flags = ImGuiTreeNodeFlags_Leaf;
 		if (ImGui::TreeNodeEx((*i)->name.data(), flags))
 		{
+			CheckClickInHierarchy(*i);
 			AddGameObjectsToHierarchy(*i);
 			ImGui::TreePop();
 		}
+		else
+			CheckClickInHierarchy(*i);
+	}
+}
 
-		if (ImGui::IsItemHovered())
+void ModuleEditor::CheckClickInHierarchy(GameObject* game_object)
+{
+	if (ImGui::IsItemHovered())
+	{
+		if (ImGui::IsMouseClicked(0))
 		{
-			if (ImGui::IsMouseClicked(0))
+			if (game_object_selected != game_object)
 			{
-				if (!new_item_clicked && game_object_selected != (*i))
-				{
-					new_item_clicked = true;
-					game_object_selected = (*i);
-				}
+				new_item_clicked = true;
+				game_object_selected = game_object;
 			}
+		}
 
-			if (ImGui::IsMouseDoubleClicked(0))
+		if (ImGui::IsMouseDoubleClicked(0))
+		{
+			float3 position;
+			if (game_object->GetGlobalPosition(&position))
 			{
-				float3 position;
-				if ((*i)->GetGlobalPosition(&position))
-				{
-					App->camera->LookAt(vec3(position.x, position.y, position.z));
-					App->camera->Position = vec3(position.x, position.y, position.z) + App->camera->Z * 50.0f;
-					App->camera->Reference = vec3(position.x, position.y, position.z) + App->camera->Z * 50.0f;
-				}
+				App->camera->LookAt(vec3(position.x, position.y, position.z));
+				App->camera->Position = vec3(position.x, position.y, position.z) + App->camera->Z * 50.0f;
+				App->camera->Reference = vec3(position.x, position.y, position.z) + App->camera->Z * 50.0f;
 			}
 		}
 	}
