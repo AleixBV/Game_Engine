@@ -526,7 +526,7 @@ void ModuleEditor::AddGameObjectsToHierarchy(GameObject* game_object)
 		{
 			if (ImGui::IsMouseClicked(0))
 			{
-				if (game_object_selected != (*i))
+				if (!new_item_clicked && game_object_selected != (*i))
 				{
 					new_item_clicked = true;
 					game_object_selected = (*i);

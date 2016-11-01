@@ -215,7 +215,7 @@ bool ModuleGeometryLoader::LoadGeometryFromFile(const char* path, GameObject* ro
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
-		root->children.push_back(RecursiveLoadGeometryFromFile(scene, scene->mRootNode));
+		root->children.push_back(RecursiveLoadGeometryFromFile(scene, scene->mRootNode, root));
 		aiReleaseImport(scene);
 	}
 	else
