@@ -544,5 +544,6 @@
     <None Include="MathGeoLib\Math\Matrix.inl">
       <Filter>MathGeoLib\Math</Filter>
     </None>
+    <None Include="README.md" />
   </ItemGroup>
 </Project>

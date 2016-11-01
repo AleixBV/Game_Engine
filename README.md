@@ -4,6 +4,8 @@ Game Engine made in college
 # Usage
 Download directly the engine code, there is no formal installation process.
 
+	-Use "L" to load the Town asset.
+
 # Credits
 Aleix Borrell Vives
 
