@@ -22,6 +22,7 @@ public:
 	float3 position;
 	float3 scale;
 	Quat rot = Quat::identity;
+	float3 euler_rot;
 };
 
 #endif

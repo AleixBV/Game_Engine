@@ -133,7 +133,20 @@ void GameObject::SetRotation(const Quat& new_rotation)
 	if (FindComponent(&components_transformation, TRANSFORMATION_COMPONENT))
 	{
 		ComponentTransform* transformation = (ComponentTransform*)components_transformation[0];
+		transformation->euler_rot = new_rotation.ToEulerXYZ() / 2 / pi * 360;
 		transformation->rot = new_rotation;
+		local_matrix = float4x4::FromTRS(transformation->position, transformation->rot, transformation->scale);
+	}
+}
+
+void GameObject::SetRotation(const float3& new_rotation)
+{
+	std::vector<Component*> components_transformation;
+	if (FindComponent(&components_transformation, TRANSFORMATION_COMPONENT))
+	{
+		ComponentTransform* transformation = (ComponentTransform*)components_transformation[0];
+		transformation->euler_rot = new_rotation;
+		transformation->rot = transformation->rot.FromEulerXYZ(new_rotation.x * 2 * pi / 360, new_rotation.y * 2 * pi / 360, new_rotation.z * 2 * pi / 360);
 		local_matrix = float4x4::FromTRS(transformation->position, transformation->rot, transformation->scale);
 	}
 }

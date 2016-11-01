@@ -40,6 +40,7 @@ public:
 	void SetTRS(const float3& new_position, const Quat& new_rot, const float3& new_scale);
 	void SetPosition(const float3& new_position);
 	void SetRotation(const Quat& new_rotation);
+	void SetRotation(const float3& new_rotation);
 	void SetScale(const float3& new_scale);
 
 private:

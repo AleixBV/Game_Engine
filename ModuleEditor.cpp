@@ -297,19 +297,48 @@ void ModuleEditor::ShowInspectorWindow(bool* show_inspector)
 			{
 			case TRANSFORMATION_COMPONENT:
 			{
-				float x = ((ComponentTransform*)game_object_selected->components[i])->position.x;
-				float y = ((ComponentTransform*)game_object_selected->components[i])->position.y;
-				float z = ((ComponentTransform*)game_object_selected->components[i])->position.z;
+				ComponentTransform* component_transformation = (ComponentTransform*)game_object_selected->components[i];
+				float pos_x = component_transformation->position.x;
+				float pos_y = component_transformation->position.y;
+				float pos_z = component_transformation->position.z;
 
-				if (ImGui::InputFloat("x", &x, 1.0f, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
-					game_object_selected->SetPosition(float3(x, y, z));
+				ImGui::Text("Position");
+				if (ImGui::InputFloat("x##pos_x", &pos_x, 1.0f, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+					game_object_selected->SetPosition(float3(pos_x, pos_y, pos_z));
 
-				if (ImGui::InputFloat("y", &y, 1.0f, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
-					game_object_selected->SetPosition(float3(x, y, z));
+				if (ImGui::InputFloat("y##pos_y", &pos_y, 1.0f, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+					game_object_selected->SetPosition(float3(pos_x, pos_y, pos_z));
 
-				if (ImGui::InputFloat("z", &z, 1.0f, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
-					game_object_selected->SetPosition(float3(x, y, z));
+				if (ImGui::InputFloat("z##pos_z", &pos_z, 1.0f, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+					game_object_selected->SetPosition(float3(pos_x, pos_y, pos_z));
 
+				float rot_x = component_transformation->euler_rot.x;
+				float rot_y = component_transformation->euler_rot.y;
+				float rot_z = component_transformation->euler_rot.z;
+
+				ImGui::Text("Rotation");
+				if (ImGui::InputFloat("x##rot_x", &rot_x, 1.0f, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+					game_object_selected->SetRotation(float3(rot_x, rot_y, rot_z));
+
+				if (ImGui::InputFloat("y##rot_y", &rot_y, 1.0f, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+					game_object_selected->SetRotation(float3(rot_x, rot_y, rot_z));
+
+				if (ImGui::InputFloat("z##rot_z", &rot_z, 1.0f, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+					game_object_selected->SetRotation(float3(rot_x, rot_y, rot_z));
+
+				float scale_x = component_transformation->scale.x;
+				float scale_y = component_transformation->scale.y;
+				float scale_z = component_transformation->scale.z;
+
+				ImGui::Text("Scale");
+				if (ImGui::InputFloat("x##scale_x", &scale_x, 1.0f, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+					game_object_selected->SetScale(float3(scale_x, scale_y, scale_z));
+
+				if (ImGui::InputFloat("y##scale_y", &scale_y, 1.0f, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+					game_object_selected->SetScale(float3(scale_x, scale_y, scale_z));
+
+				if (ImGui::InputFloat("z##scale_z", &scale_z, 1.0f, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+					game_object_selected->SetScale(float3(scale_x, scale_y, scale_z));
 				break;
 			}
 			case MESH_COMPONENT:
