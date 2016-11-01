@@ -199,9 +199,8 @@ void ModuleRenderer3D::DrawGameObjects(const GameObject* game_object)
 		if (game_object->FindComponent(&components_transformation, TRANSFORMATION_COMPONENT))
 		{
 			ComponentTransform* transformation = (ComponentTransform*)components_transformation[0];
-			float4x4 matrix = float4x4::FromTRS(transformation->position, transformation->rot, transformation->scale);
 			glPushMatrix();
-			glMultMatrixf(matrix.Transposed().ptr());
+			glMultMatrixf(transformation->GetLocalMatrix().Transposed().ptr());
 		}
 
 		std::vector<Component*> components_mesh;
