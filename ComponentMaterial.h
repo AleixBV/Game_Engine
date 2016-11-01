@@ -2,17 +2,17 @@
 #define __ComponentMaterial_H__
 
 #include "Component.h"
-#include "MathGeoLib/MathBuildConfig.h"
-#include "MathGeoLib/MathGeoLib.h"
 
 class ComponentMaterial : public Component
 {
 public:
 	//Constructor
-	ComponentMaterial();
+	ComponentMaterial(unsigned int material_id);
 
 	//Destructor
 	~ComponentMaterial();
+
+	unsigned int material_id;
 };
 
 #endif

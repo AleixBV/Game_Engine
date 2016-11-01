@@ -24,7 +24,7 @@ public:
 
 private:
 	void DrawGameObjects(const GameObject* game_object);
-	void DrawMesh(const Mesh* mesh, WireframeTypeDraw type_draw = WIREFRAME_NORMAL_DRAW);
+	void DrawMesh(const Mesh* mesh, int material_id = -1, WireframeTypeDraw type_draw = WIREFRAME_NORMAL_DRAW);
 	void ModuleRenderer3D::BeginDebugDraw();
 	void ModuleRenderer3D::EndDebugDraw();
 

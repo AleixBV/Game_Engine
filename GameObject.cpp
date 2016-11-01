@@ -26,20 +26,20 @@ void GameObject::Update()
 
 bool GameObject::FindComponent(std::vector<Component*>* components_to_return, ComponentType type) const
 {
-	bool ret = true;
+	bool ret = false;
 	std::vector<Component*>::const_iterator iterator = components.begin();
 	while (iterator != components.end())
 	{
 		if ((*iterator)->type == type)
 		{
 			components_to_return->push_back(*iterator);
-			return true;
+			ret = true;
 		}
 
 		iterator++;
 	}
 
-	return false;
+	return ret;
 }
 
 bool GameObject::GetLocalPosition(float3* pos) const

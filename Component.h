@@ -4,7 +4,8 @@
 enum ComponentType
 {
 	TRANSFORMATION_COMPONENT,
-	MESH_COMPONENT
+	MESH_COMPONENT,
+	MATERIAL_COMPONENT
 };
 
 class Component

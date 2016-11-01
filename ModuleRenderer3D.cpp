@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "Mesh.h"
 #include "ComponentTransform.h"
+#include "ComponentMaterial.h"
 #include <vector>
 #include "Glew/include/glew.h"
 #include "SDL/include/SDL_opengl.h"
@@ -209,7 +210,12 @@ void ModuleRenderer3D::DrawGameObjects(const GameObject* game_object)
 			for (int i = 0; i < components_mesh.capacity(); i++)
 			{
 				Mesh* mesh = (Mesh*)components_mesh[i];
-				DrawMesh(mesh, game_object->type_draw);
+
+				std::vector<Component*> components_material;
+				if(game_object->FindComponent(&components_material, MATERIAL_COMPONENT))
+					DrawMesh(mesh, ((ComponentMaterial*)components_material[0])->material_id, game_object->type_draw);
+				else
+					DrawMesh(mesh, game_object->type_draw);
 			}
 		}
 
@@ -228,7 +234,7 @@ void ModuleRenderer3D::DrawGameObjects(const GameObject* game_object)
 	}
 }
 
-void ModuleRenderer3D::DrawMesh(const Mesh* mesh, WireframeTypeDraw type_draw)
+void ModuleRenderer3D::DrawMesh(const Mesh* mesh, int material_id, WireframeTypeDraw type_draw)
 {
 	glColor3f(1.0f, 1.0f, 1.0f);
 
@@ -259,6 +265,12 @@ void ModuleRenderer3D::DrawMesh(const Mesh* mesh, WireframeTypeDraw type_draw)
 		glColorPointer(3, GL_FLOAT, 0, NULL);
 	}
 
+	if (material_id != -1)
+	{
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, material_id);
+	}
+
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
 	glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
 
@@ -281,6 +293,7 @@ void ModuleRenderer3D::DrawMesh(const Mesh* mesh, WireframeTypeDraw type_draw)
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
+	glDisable(GL_TEXTURE_2D);
 }
 
 void ModuleRenderer3D::BeginDebugDraw()

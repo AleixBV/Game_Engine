@@ -3,17 +3,23 @@
 #include "ModuleGeometryLoader.h"
 #include "Mesh.h"
 #include "ComponentTransform.h"
+#include "ComponentMaterial.h"
 #include "Assimp/include/cimport.h"
 #include "Assimp/include/scene.h"
 #include "Assimp/include/postprocess.h"
 #include "Assimp/include/cfileio.h"
 
 #include "Glew/include/glew.h"
+#include "Devil/Devil/include/il.h"
+#include "Devil/Devil/include/ilut.h"
 
 #include <string>
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 #pragma comment (lib, "Glew/libx86/glew32.lib")
+#pragma comment (lib, "Devil/Devil/libx86/Devil.lib")
+#pragma comment (lib, "Devil/Devil/libx86/ILU.lib")
+#pragma comment (lib, "Devil/Devil/libx86/ILUT.lib")
 
 //Constructor
 ModuleGeometryLoader::ModuleGeometryLoader(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -29,6 +35,10 @@ ModuleGeometryLoader::~ModuleGeometryLoader()
 
 bool ModuleGeometryLoader::Init()
 {
+	ilInit();
+	ilutInit();
+	ilutRenderer(ILUT_OPENGL);
+
 	// Stream log messages to Debug window
 	struct aiLogStream stream;
 	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
@@ -159,6 +169,29 @@ GameObject* ModuleGeometryLoader::RecursiveLoadGeometryFromFile(const aiScene* s
 		mesh->name = (scene->mMeshes[node->mMeshes[i]]->mName.length > 0) ? scene->mMeshes[node->mMeshes[i]]->mName.C_Str() : "Unnamed";
 
 		game_object->components.push_back(mesh);
+
+		
+		aiMaterial* material = scene->mMaterials[scene->mMeshes[node->mMeshes[i]]->mMaterialIndex];
+		if (material)
+		{
+			//for(unsigned int x = 0; x < material->GetTextureCount(aiTextureType_DIFFUSE); x++)
+			aiString path;
+			material->GetTexture(aiTextureType_DIFFUSE, 0, &path);
+
+			if (path.length > 0)
+			{
+				std::string real_path = "../Game/Assets/Town/";
+				int size = real_path.size();
+				real_path += path.data; 
+				real_path.erase(size, real_path.find_last_of("\\") - size + 1);
+				ILuint id;
+				ilGenImages(1, &id);
+				ilBindImage(id);
+				ilLoadImage(real_path.c_str());
+				ComponentMaterial* component_material = new ComponentMaterial(ilutGLBindTexImage());
+				game_object->components.push_back(component_material);
+			}
+		}
 	}
 
 	if (node->mNumChildren != 0)
