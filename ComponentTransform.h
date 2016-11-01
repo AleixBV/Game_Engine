@@ -22,11 +22,6 @@ public:
 	float3 position;
 	float3 scale;
 	Quat rot = Quat::identity;
-
-	float4x4 GetLocalMatrix() const;
-
-private:
-	float4x4 local_matrix;
 };
 
 #endif

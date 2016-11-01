@@ -1,6 +1,9 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleEditor.h"
+#include "ComponentTransform.h"
+#include "Mesh.h"
+#include "ComponentMaterial.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_sdl_gl3.h"
 #include "imgui/gl3w.h"
@@ -288,7 +291,46 @@ void ModuleEditor::ShowInspectorWindow(bool* show_inspector)
 
 	if (game_object_selected != nullptr)
 	{
-		
+		for (int i = 0; i < game_object_selected->components.size(); i++)
+		{
+			switch (game_object_selected->components[i]->type)
+			{
+			case TRANSFORMATION_COMPONENT:
+			{
+				float x = ((ComponentTransform*)game_object_selected->components[i])->position.x;
+				float y = ((ComponentTransform*)game_object_selected->components[i])->position.y;
+				float z = ((ComponentTransform*)game_object_selected->components[i])->position.z;
+
+				if (ImGui::InputFloat("x", &x, 1.0f, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+					game_object_selected->SetPosition(float3(x, y, z));
+
+				if (ImGui::InputFloat("y", &y, 1.0f, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+					game_object_selected->SetPosition(float3(x, y, z));
+
+				if (ImGui::InputFloat("z", &z, 1.0f, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+					game_object_selected->SetPosition(float3(x, y, z));
+
+				break;
+			}
+			case MESH_COMPONENT:
+				if (ImGui::CollapsingHeader("Mesh", ImGuiTreeNodeFlags_DefaultOpen))
+				{
+					Mesh* mesh = (Mesh*)game_object_selected->components[i];
+					ImGui::Text("Indices: %u", mesh->num_indices);
+					ImGui::Text("Vertices: %u", mesh->num_vertices);
+				}
+				break;
+			case MATERIAL_COMPONENT:
+				if (ImGui::CollapsingHeader("Material", ImGuiTreeNodeFlags_DefaultOpen))
+				{
+					ImGui::Text("Texture:");
+					ImGui::Image((ImTextureID)((ComponentMaterial*)game_object_selected->components[i])->material_id, ImVec2(100, 100));
+				}
+				break;
+			default:
+				break;
+			}
+		}
 	}
 
 	ImGui::End();

@@ -92,6 +92,7 @@ GameObject* ModuleGeometryLoader::RecursiveLoadGeometryFromFile(const aiScene* s
 	GameObject* game_object = App->scene->CreateNewGameObject(parent, node->mName.C_Str());
 	ComponentTransform* component_transform = new ComponentTransform(pos, scale, rot);
 	game_object->components.push_back(component_transform);
+	game_object->SetTRS(pos, rot, scale);
 
 	// Use scene->mNumMeshes to iterate on scene->mMeshes array
 	for (int x = node->mNumMeshes, i = 0; x > 0; x--, i++)

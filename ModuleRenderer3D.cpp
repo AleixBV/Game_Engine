@@ -198,9 +198,8 @@ void ModuleRenderer3D::DrawGameObjects(const GameObject* game_object)
 		std::vector<Component*> components_transformation;
 		if (game_object->FindComponent(&components_transformation, TRANSFORMATION_COMPONENT))
 		{
-			ComponentTransform* transformation = (ComponentTransform*)components_transformation[0];
 			glPushMatrix();
-			glMultMatrixf(transformation->GetLocalMatrix().Transposed().ptr());
+			glMultMatrixf(game_object->GetLocalMatrix().Transposed().ptr());
 		}
 
 		std::vector<Component*> components_mesh;
@@ -214,7 +213,7 @@ void ModuleRenderer3D::DrawGameObjects(const GameObject* game_object)
 				if(game_object->FindComponent(&components_material, MATERIAL_COMPONENT))
 					DrawMesh(mesh, ((ComponentMaterial*)components_material[0])->material_id, game_object->type_draw);
 				else
-					DrawMesh(mesh, game_object->type_draw);
+					DrawMesh(mesh, -1, game_object->type_draw);
 			}
 		}
 
