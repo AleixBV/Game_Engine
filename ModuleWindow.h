@@ -18,11 +18,6 @@ public:
 	bool Init();
 	bool CleanUp();
 
-	void SetTitle(const char* title);
-	const char* GetTitle() const;
-	void SetOrganization(const char* title);
-	const char* GetOrganization() const;
-
 public:
 	//The window we'll be rendering to
 	SDL_Window* window;
@@ -43,8 +38,6 @@ public:
 
 private:
 	bool resizable;
-	const char* title;
-	const char* organization;
 	uint width;
 	uint height;
 };

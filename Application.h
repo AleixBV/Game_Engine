@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __Application_H__
+#define __Application_H__
 
 #include "p2List.h"
 #include "Globals.h"
@@ -13,6 +14,7 @@
 #include "ModulePhysics3D.h"
 #include "ModuleGeometryLoader.h"
 #include "ModuleEditor.h"
+#include "ModuleFileSystem.h"
 
 class Application
 {
@@ -26,9 +28,12 @@ public:
 	ModulePhysics3D* physics;
 	ModuleGeometryLoader* geometry_loader;
 	ModuleEditor* editor;
+	ModuleFileSystem* file_system;
 
 private:
 
+	const char* title;
+	const char* organization;
 	Timer	ms_timer;
 	float	dt;
 	p2List<Module*> list_modules;
@@ -47,6 +52,11 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+
+	void SetTitle(const char* title);
+	const char* GetTitle() const;
+	void SetOrganization(const char* title);
+	const char* GetOrganization() const;
 	int GetMaxFps();
 	void SetMaxFps(int x);
 	void OpenLink(char* path);
@@ -58,3 +68,4 @@ private:
 	void PrepareUpdate();
 	void FinishUpdate();
 };
+#endif

@@ -40,6 +40,9 @@
     <Filter Include="MathGeoLib\Time">
       <UniqueIdentifier>{8fb0b287-a1e3-4c18-9086-6adea4e5b056}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Tools\PugiXml">
+      <UniqueIdentifier>{f73edfe7-c243-41a0-bfcf-b5f2e423285f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -330,6 +333,15 @@
     <ClInclude Include="ComponentMaterial.h">
       <Filter>Sources\Containers</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleFileSystem.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="PugiXml\src\pugiconfig.hpp">
+      <Filter>Sources\Tools\PugiXml</Filter>
+    </ClInclude>
+    <ClInclude Include="PugiXml\src\pugixml.hpp">
+      <Filter>Sources\Tools\PugiXml</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -514,6 +526,12 @@
     </ClCompile>
     <ClCompile Include="ComponentMaterial.cpp">
       <Filter>Sources\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleFileSystem.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="PugiXml\src\pugixml.cpp">
+      <Filter>Sources\Tools\PugiXml</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -2,6 +2,7 @@
 
 Application::Application()
 {
+	file_system = new ModuleFileSystem(this);
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
 	audio = new ModuleAudio(this, true);
@@ -17,6 +18,7 @@ Application::Application()
 	// They will CleanUp() in reverse order
 
 	// Main Modules
+	AddModule(file_system);
 	AddModule(window);
 	AddModule(camera);
 	AddModule(input);
@@ -50,6 +52,8 @@ bool Application::Init()
 	max_ms_per_frame = 1000.0f / 120.0f;
 	frames = 0.0f;
 	ms_in_last_frame = 0.0f;
+	title = TITLE;
+	organization = "CITM";
 
 	// Call Init() in all modules
 	p2List_item<Module*>* item = list_modules.getFirst();
@@ -136,6 +140,28 @@ update_status Application::Update()
 	return ret;
 }
 
+void Application::SetTitle(const char* _title)
+{
+	SDL_SetWindowTitle(window->window, _title);
+	title = _title;
+}
+
+const char* Application::GetTitle() const
+{
+	return (char*)title;
+}
+
+void Application::SetOrganization(const char* _organization)
+{
+	SDL_SetWindowTitle(window->window, _organization);
+	organization = _organization;
+}
+
+const char* Application::GetOrganization() const
+{
+	return (char*)organization;
+}
+
 int Application::GetMaxFps()
 {
 	return max_fps;
@@ -183,5 +209,4 @@ void Application::DebugDraw()
 		item->data->DebugDraw();
 		item = item->next;
 	}
-
 }

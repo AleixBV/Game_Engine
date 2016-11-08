@@ -31,8 +31,6 @@ bool ModuleWindow::Init()
 		resizable = WIN_RESIZABLE;
 		width = SCREEN_WIDTH * SCREEN_SIZE;
 		height = SCREEN_HEIGHT * SCREEN_SIZE;
-		title = TITLE;
-		organization = "CITM";
 
 		//Use OpenGL 2.1
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
@@ -58,7 +56,7 @@ bool ModuleWindow::Init()
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 		}
 
-		window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
+		window = SDL_CreateWindow(App->GetTitle(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 
 		if(window == NULL)
 		{
@@ -89,28 +87,6 @@ bool ModuleWindow::CleanUp()
 	//Quit SDL subsystems
 	SDL_Quit();
 	return true;
-}
-
-void ModuleWindow::SetTitle(const char* _title)
-{
-	SDL_SetWindowTitle(window, _title);
-	title = _title;
-}
-
-const char* ModuleWindow::GetTitle() const
-{
-	return (char*)title;
-}
-
-void ModuleWindow::SetOrganization(const char* _organization)
-{
-	SDL_SetWindowTitle(window, _organization);
-	organization = _organization;
-}
-
-const char* ModuleWindow::GetOrganization() const
-{
-	return (char*)organization;
 }
 
 void ModuleWindow::SetFullscreen(bool fullscreen)

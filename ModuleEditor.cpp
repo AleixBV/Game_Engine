@@ -454,14 +454,14 @@ void ModuleEditor::ShowConfigWindow(bool* show_window)
 	if (ImGui::CollapsingHeader("Application"))
 	{
 		static char title[100];
-		strcpy_s(title, 100, App->window->GetTitle());
+		strcpy_s(title, 100, App->GetTitle());
 		if (ImGui::InputText("Application Name", title, 100, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
-			App->window->SetTitle(title);
+			App->SetTitle(title);
 
 		static char organization[100];
-		strcpy_s(organization, 100, App->window->GetOrganization());
+		strcpy_s(organization, 100, App->GetOrganization());
 		if (ImGui::InputText("Organization Name", organization, 100, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
-			App->window->SetOrganization(organization);
+			App->SetOrganization(organization);
 
 		if(ImGui::Checkbox("Vsync", &vsync))
 		{
