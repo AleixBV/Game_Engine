@@ -2,7 +2,7 @@
 #include "Application.h"
 #include "ModuleEditor.h"
 #include "ComponentTransform.h"
-#include "Mesh.h"
+#include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_sdl_gl3.h"
@@ -11,7 +11,7 @@
 //Constructor
 ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-
+	name = "editor";
 }
 
 //Destructor
@@ -344,7 +344,7 @@ void ModuleEditor::ShowInspectorWindow(bool* show_inspector)
 			case MESH_COMPONENT:
 				if (ImGui::CollapsingHeader("Mesh", ImGuiTreeNodeFlags_DefaultOpen))
 				{
-					Mesh* mesh = (Mesh*)game_object_selected->components[i];
+					ComponentMesh* mesh = (ComponentMesh*)game_object_selected->components[i];
 					ImGui::Text("Indices: %u", mesh->num_indices);
 					ImGui::Text("Vertices: %u", mesh->num_vertices);
 				}

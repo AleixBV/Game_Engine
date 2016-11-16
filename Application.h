@@ -48,6 +48,7 @@ public:
 	Application();
 	~Application();
 
+	bool Awake();
 	bool Init();
 	update_status Update();
 	bool CleanUp();
@@ -64,6 +65,7 @@ public:
 
 private:
 
+	pugi::xml_node LoadConfig(pugi::xml_document& config_file) const;
 	void AddModule(Module* mod);
 	void PrepareUpdate();
 	void FinishUpdate();

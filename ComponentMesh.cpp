@@ -1,11 +1,11 @@
-#include "Mesh.h"
+#include "ComponentMesh.h"
 
-Mesh::Mesh()
+ComponentMesh::ComponentMesh()
 {
 	type = MESH_COMPONENT;
 }
 
-Mesh::~Mesh()
+ComponentMesh::~ComponentMesh()
 {
 	RELEASE_ARRAY(indices);
 	RELEASE_ARRAY(vertices);

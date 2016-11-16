@@ -2,7 +2,7 @@
 #include "Application.h"
 #include "ModuleRenderer3D.h"
 #include "GameObject.h"
-#include "Mesh.h"
+#include "ComponentMesh.h"
 #include "ComponentTransform.h"
 #include "ComponentMaterial.h"
 #include <vector>
@@ -17,6 +17,7 @@
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
+	name = "renderer";
 }
 
 // Destructor
@@ -207,7 +208,7 @@ void ModuleRenderer3D::DrawGameObjects(const GameObject* game_object)
 		{
 			for (int i = 0; i < components_mesh.capacity(); i++)
 			{
-				Mesh* mesh = (Mesh*)components_mesh[i];
+				ComponentMesh* mesh = (ComponentMesh*)components_mesh[i];
 
 				std::vector<Component*> components_material;
 				if(game_object->FindComponent(&components_material, MATERIAL_COMPONENT))
@@ -232,7 +233,7 @@ void ModuleRenderer3D::DrawGameObjects(const GameObject* game_object)
 	}
 }
 
-void ModuleRenderer3D::DrawMesh(const Mesh* mesh, int material_id, WireframeTypeDraw type_draw)
+void ModuleRenderer3D::DrawMesh(const ComponentMesh* mesh, int material_id, WireframeTypeDraw type_draw)
 {
 	glColor3f(1.0f, 1.0f, 1.0f);
 

@@ -45,6 +45,46 @@ Application::~Application()
 	}
 }
 
+bool Application::Awake()
+{
+	bool ret = false;
+
+	pugi::xml_document	config_file;
+	pugi::xml_node		config;
+	pugi::xml_node		app_config;
+
+	config = LoadConfig(config_file);
+
+	if (config.empty() == false)
+	{
+		// self-config
+		ret = true;
+		app_config = config.child("app");
+		title = app_config.child("title").child_value();
+		organization = app_config.child("organization").child_value();
+
+		int cap = app_config.attribute("framerate_cap").as_int(-1);
+
+		//if (cap > 0)
+		//{
+		//	capped_ms = 1000 / cap;
+		//}
+	}
+
+	if (ret == true)
+	{
+		p2List_item<Module*>* item = list_modules.getFirst();
+
+		while (item != NULL && ret == true)
+		{
+			ret = item->data->Awake(config.child(item->data->GetName().c_str()));
+			item = item->next;
+		}
+	}
+
+	return ret;
+}
+
 bool Application::Init()
 {
 	bool ret = true;
@@ -76,6 +116,25 @@ bool Application::Init()
 	
 	ms_timer.Start();
 	fps_timer.Start();
+	return ret;
+}
+
+pugi::xml_node Application::LoadConfig(pugi::xml_document& config_file) const
+{
+	pugi::xml_node ret;
+
+	char* buf;
+	int size = file_system->Load("config.xml", &buf);
+	pugi::xml_parse_result result = config_file.load_buffer(buf, size);
+	RELEASE(buf);
+
+	if (result == NULL)
+	{
+		LOG("Could not load map xml file config.xml. pugi error: %s", result.description());
+	}
+	else
+		ret = config_file.child("config");
+
 	return ret;
 }
 

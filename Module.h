@@ -62,6 +62,11 @@ public:
 		return true; 
 	}
 
+	std::string GetName() const
+	{
+		return name;
+	}
+
 	virtual void OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	{}
 

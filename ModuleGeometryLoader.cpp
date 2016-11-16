@@ -1,7 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleGeometryLoader.h"
-#include "Mesh.h"
+#include "ComponentMesh.h"
 #include "ComponentTransform.h"
 #include "ComponentMaterial.h"
 #include "Assimp/include/cimport.h"
@@ -24,7 +24,7 @@
 //Constructor
 ModuleGeometryLoader::ModuleGeometryLoader(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-
+	name = "geometry_loader";
 }
 
 //Destructor
@@ -100,7 +100,7 @@ GameObject* ModuleGeometryLoader::RecursiveLoadGeometryFromFile(const aiScene* s
 	for (int x = node->mNumMeshes, i = 0; x > 0; x--, i++)
 	{
 		scene->mMeshes[node->mMeshes[i]];
-		Mesh* mesh = new Mesh();
+		ComponentMesh* mesh = new ComponentMesh();
 		// copy vertices
 
 		mesh->num_vertices = scene->mMeshes[node->mMeshes[i]]->mNumVertices;

@@ -4,7 +4,7 @@
 #include "Globals.h"
 #include "Primitive.h"
 #include "GameObject.h"
-#include "Mesh.h"
+#include "ComponentMesh.h"
 #include <vector>
 
 #define MAX_SNAKE 2

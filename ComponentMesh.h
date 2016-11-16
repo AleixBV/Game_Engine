@@ -4,11 +4,11 @@
 #include "Globals.h"
 #include "Component.h"
 
-struct Mesh : public Component
+struct ComponentMesh : public Component
 {
 public:
-	Mesh();
-	~Mesh();
+	ComponentMesh();
+	~ComponentMesh();
 
 	const char* name = "Unnamed";
 
