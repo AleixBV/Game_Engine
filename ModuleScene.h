@@ -1,6 +1,6 @@
 #pragma once
 #include "Module.h"
-#include "p2DynArray.h"
+#include <vector>
 #include "Globals.h"
 #include "Primitive.h"
 #include "GameObject.h"
@@ -33,5 +33,5 @@ private:
 	void CreateSphere(const vec3& position, float radius);
 	void CreateCube(const vec3& position, const vec3& size, float angle = 0.0f, const vec3& rotAxis = vec3(1, 1, 1));
 
-	p2List<Primitive*> primitives;
+	std::vector<Primitive*> primitives;
 };

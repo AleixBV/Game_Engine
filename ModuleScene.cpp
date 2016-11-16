@@ -43,9 +43,9 @@ bool ModuleScene::CleanUp()
 {
 	LOG("Unloading Intro scene");
 
-	for (p2List_item<Primitive*>* tmp = primitives.getFirst(); tmp != NULL; tmp = tmp->next)
+	for (std::list<Primitive*>::iterator tmp = primitives.front; tmp != primitives.end; tmp++)
 	{
-		delete tmp->data;
+		RELEASE(*tmp);
 	}
 	primitives.clear();
 
@@ -57,9 +57,9 @@ bool ModuleScene::CleanUp()
 // Update
 update_status ModuleScene::Update(float dt)
 {
-	for (p2List_item<Primitive*>* tmp = primitives.getFirst(); tmp != NULL; tmp = tmp->next)
+	for (std::list<Primitive*>::iterator tmp = primitives.front; tmp != primitives.end; tmp++)
 	{
-		tmp->data->Render();
+		(*tmp)->Render();
 	}
 
 
@@ -169,7 +169,7 @@ void ModuleScene::CreateCube(const vec3& position, const vec3& size, float angle
 
 	else
 	{
-		primitives.add(c);
+		primitives.push_back(c);
 		App->physics->AddBody(*c, 0);
 	}
 
@@ -183,5 +183,5 @@ void ModuleScene::CreateSphere(const vec3& position, float radius)
 
 	App->physics->AddBody(*c, 0);
 
-	primitives.add(c);
+	primitives.push_back(c);
 }

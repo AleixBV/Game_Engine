@@ -89,18 +89,18 @@ update_status ModulePhysics3D::PreUpdate(float dt)
 
 			if(pbodyA && pbodyB)
 			{
-				p2List_item<Module*>* item = pbodyA->collision_listeners.getFirst();
-				while(item)
+				std::list<Module*>::iterator item = pbodyA->collision_listeners.front;
+				while(item != pbodyA->collision_listeners.end)
 				{
-					item->data->OnCollision(pbodyA, pbodyB);
-					item = item->next;
+					(*item)->OnCollision(pbodyA, pbodyB);
+					item++;
 				}
 
-				item = pbodyB->collision_listeners.getFirst();
-				while(item)
+				item = pbodyB->collision_listeners.front;
+				while(item != pbodyB->collision_listeners.end)
 				{
-					item->data->OnCollision(pbodyB, pbodyA);
-					item = item->next;
+					(*item)->OnCollision(pbodyB, pbodyA);
+					item++;
 				}
 			}
 		}
@@ -133,7 +133,7 @@ bool ModulePhysics3D::CleanUp()
 		world->removeCollisionObject(obj);
 	}
 
-	for(p2List_item<btTypedConstraint*>* item = constraints.getFirst(); item; item = item->next)
+	for(std::list<btTypedConstraint*>* item = constraints.front; item; item++)
 	{
 		world->removeConstraint(item->data);
 		delete item->data;
