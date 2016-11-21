@@ -43,7 +43,7 @@ bool ModuleScene::CleanUp()
 {
 	LOG("Unloading Intro scene");
 
-	for (std::list<Primitive*>::iterator tmp = primitives.front; tmp != primitives.end; tmp++)
+	for (std::vector<Primitive*>::iterator tmp = primitives.begin(); tmp != primitives.end(); tmp++)
 	{
 		RELEASE(*tmp);
 	}
@@ -57,7 +57,7 @@ bool ModuleScene::CleanUp()
 // Update
 update_status ModuleScene::Update(float dt)
 {
-	for (std::list<Primitive*>::iterator tmp = primitives.front; tmp != primitives.end; tmp++)
+	for (std::vector<Primitive*>::iterator tmp = primitives.begin(); tmp != primitives.end(); tmp++)
 	{
 		(*tmp)->Render();
 	}
