@@ -30,11 +30,11 @@ ModulePhysics3D::ModulePhysics3D(Application* app, bool start_enabled) : Module(
 // Destructor
 ModulePhysics3D::~ModulePhysics3D()
 {
-	delete debug_draw;
-	delete solver;
-	delete broad_phase;
-	delete dispatcher;
-	delete collision_conf;
+	RELEASE(debug_draw);
+	RELEASE(solver);
+	RELEASE(broad_phase);
+	RELEASE(dispatcher);
+	RELEASE(collision_conf);
 }
 
 // Render not available yet----------------------------------
@@ -137,33 +137,33 @@ bool ModulePhysics3D::CleanUp()
 	for(std::list<btTypedConstraint*>::iterator item = constraints.begin(); item != constraints.end(); item++)
 	{
 		world->removeConstraint(*item);
-		delete *item;
+		RELEASE(*item);
 	}
 	
 	constraints.clear();
 
 	for(std::list<btDefaultMotionState*>::iterator item = motions.begin(); item != motions.end(); item++)
-		delete *item;
+		RELEASE(*item);
 
 	motions.clear();
 
 	for(std::list<btCollisionShape*>::iterator item = shapes.begin(); item != shapes.end(); item++)
-		delete *item;
+		RELEASE(*item);
 
 	shapes.clear();
 
 	for(std::list<PhysBody3D*>::iterator item = bodies.begin(); item != bodies.end(); item++)
-		delete *item;
+		RELEASE(*item);
 
 	bodies.clear();
 
 	for(std::list<PhysVehicle3D*>::iterator item = vehicles.begin(); item != vehicles.end(); item++)
-		delete *item;
+		RELEASE(*item);
 
 	vehicles.clear();
 
-	delete vehicle_raycaster;
-	delete world;
+	RELEASE(vehicle_raycaster);
+	RELEASE(world);
 
 	return true;
 }
