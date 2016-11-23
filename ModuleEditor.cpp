@@ -70,6 +70,8 @@ update_status ModuleEditor::Update(float dt)
 {
 	update_status ret = UPDATE_CONTINUE;
 
+	bool save = false;
+
 	if (show_test_window)
 	{
 		ImGui::SetNextWindowPos(ImVec2(1000, 100), ImGuiSetCond_FirstUseEver);
@@ -132,7 +134,8 @@ update_status ModuleEditor::Update(float dt)
 		if (ImGui::BeginMenu("File"))
 		{
 			ImGui::MenuItem("New");
-			ImGui::MenuItem("Save");
+			if (ImGui::MenuItem("Save", "ctrl + s"))
+				save = true;
 			ImGui::MenuItem("Load");
 
 			if (ImGui::MenuItem("Quit"))
@@ -183,6 +186,16 @@ update_status ModuleEditor::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
 		show_about_window = !show_about_window;
+
+
+	if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+		save = true;
+
+	if (save) 
+	{
+		App->SaveConfig();
+		//App->SaveGame();
+	}
 
 	return ret;
 }

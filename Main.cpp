@@ -9,6 +9,7 @@
 enum main_states
 {
 	MAIN_CREATION,
+	MAIN_AWAKE,
 	MAIN_START,
 	MAIN_UPDATE,
 	MAIN_FINISH,
@@ -17,7 +18,7 @@ enum main_states
 
 int main(int argc, char ** argv)
 {
-	LOG("Starting game '%s'...", TITLE);
+	LOG("Starting '%s'...", DEFAULT_TITLE);
 
 	int main_return = EXIT_FAILURE;
 	main_states state = MAIN_CREATION;
@@ -31,7 +32,22 @@ int main(int argc, char ** argv)
 
 			LOG("-------------- Application Creation --------------");
 			App = new Application();
-			state = MAIN_START;
+			state = MAIN_AWAKE;
+			break;
+
+		case MAIN_AWAKE:
+
+			LOG("-------------- Application Awake --------------");
+			if (App->Awake() == false)
+			{
+				LOG("Application Awake exits with ERROR");
+				state = MAIN_EXIT;
+			}
+			else
+			{
+				state = MAIN_START;
+			}
+
 			break;
 
 		case MAIN_START:
@@ -83,6 +99,6 @@ int main(int argc, char ** argv)
 	}
 
 	delete App;
-	LOG("Exiting game '%s'...\n", TITLE);
+	LOG("Exiting '%s'...\n", DEFAULT_TITLE);
 	return main_return;
 }

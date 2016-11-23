@@ -72,5 +72,15 @@ public:
 
 	virtual void DebugDraw()
 	{}
+
+	virtual bool SaveConfig(pugi::xml_node&) const
+	{
+		return true;
+	}
+
+	virtual bool SaveGame(pugi::xml_node&) const
+	{
+		return true;
+	}
 };
 #endif

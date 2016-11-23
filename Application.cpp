@@ -57,22 +57,14 @@ bool Application::Awake()
 
 	if (config.empty() == false)
 	{
-		// self-config
 		ret = true;
 		app_config = config.child("app");
-		title = app_config.child("title").child_value();
-		organization = app_config.child("organization").child_value();
+		title = app_config.child("title").child_value(DEFAULT_TITLE);
+		organization = app_config.child("organization").child_value("CITM");
 
-		int cap = app_config.attribute("framerate_cap").as_int(-1);
+		max_fps = app_config.attribute("max_fps").as_int(120);
+		max_ms_per_frame = 1000.0f / max_fps;
 
-		//if (cap > 0)
-		//{
-		//	capped_ms = 1000 / cap;
-		//}
-	}
-
-	if (ret == true)
-	{
 		std::list<Module*>::iterator item = list_modules.begin();
 
 		while (item != list_modules.end() && ret == true)
@@ -81,6 +73,16 @@ bool Application::Awake()
 			item++;
 		}
 	}
+	else
+	{
+		// self-config
+		ret = true;
+		title = DEFAULT_TITLE;
+		organization = "CITM";
+
+		max_fps = 120;
+		max_ms_per_frame = 1000.0f / max_fps;
+	}
 
 	return ret;
 }
@@ -88,12 +90,11 @@ bool Application::Awake()
 bool Application::Init()
 {
 	bool ret = true;
-	max_fps = 120;
-	max_ms_per_frame = 1000.0f / 120.0f;
+	want_to_save_config = false;
+	want_to_save_game = false;
+	game_save_file = nullptr;
 	frames = 0.0f;
 	ms_in_last_frame = 0.0f;
-	title = TITLE;
-	organization = "CITM";
 
 	// Call Init() in all modules
 	std::list<Module*>::iterator item = list_modules.begin();
@@ -125,15 +126,18 @@ pugi::xml_node Application::LoadConfig(pugi::xml_document& config_file) const
 
 	char* buf;
 	int size = file_system->Load("config.xml", &buf);
-	pugi::xml_parse_result result = config_file.load_buffer(buf, size);
-	RELEASE(buf);
-
-	if (result == NULL)
+	if (size > 0)
 	{
-		LOG("Could not load map xml file config.xml. pugi error: %s", result.description());
+		pugi::xml_parse_result result = config_file.load_buffer(buf, size);
+		RELEASE(buf);
+
+		if (result == NULL)
+		{
+			LOG("Could not load map xml file config.xml. pugi error: %s", result.description());
+		}
+		else
+			ret = config_file.child("config");
 	}
-	else
-		ret = config_file.child("config");
 
 	return ret;
 }
@@ -148,6 +152,19 @@ void Application::PrepareUpdate()
 // ---------------------------------------------
 void Application::FinishUpdate()
 {
+	if (want_to_save_config)
+	{
+		SaveConfigNow();
+		want_to_save_config = false;
+	}
+
+	if (want_to_save_game)
+	{
+		SaveGameNow();
+		want_to_save_game = false;
+		game_save_file = nullptr;
+	}
+
 	frames++;
 
 	if (fps_timer.Read() >= 1000)
@@ -268,4 +285,91 @@ void Application::DebugDraw()
 		(*item)->DebugDraw();
 		item++;
 	}
+}
+
+void Application::SaveConfig()
+{
+	want_to_save_config = true;
+}
+
+void Application::SaveGame(const char* file)
+{
+	want_to_save_game = true;
+	game_save_file = file;
+}
+
+bool Application::SaveConfigNow() const
+{
+	bool ret = true;
+
+	LOG("Saving Config");
+
+	// xml object were we will store all data
+	pugi::xml_document data;
+	pugi::xml_node root;
+
+	root = data.append_child("config");
+
+	//save Application
+	pugi::xml_node cam = data.append_child("application");
+
+	cam.append_attribute("title") = title;
+	cam.append_attribute("organization") = organization;
+	cam.append_attribute("max_fps") = max_fps;
+
+	//save Modules
+	std::list<Module*>::const_iterator item = list_modules.begin();
+	for(item; item != list_modules.end(); item++)
+	{
+		ret = (*item)->SaveConfig(root.append_child((*item)->GetName().c_str()));
+	}
+
+	if (ret == true)
+	{
+		std::stringstream stream;
+		data.save(stream);
+
+		// we are done, so write data to disk
+		file_system->Save("config.xml", stream.str().c_str(), stream.str().length());
+		LOG("... finished saving config.xml");
+	}
+	else
+		LOG("Save config process halted from an error");
+
+	data.reset();
+	return ret;
+}
+
+bool Application::SaveGameNow() const
+{
+	bool ret = true;
+
+	LOG("Saving Game State to %s...", game_save_file);
+
+	// xml object were we will store all data
+	pugi::xml_document data;
+	pugi::xml_node root;
+
+	root = data.append_child("game_state");
+
+	std::list<Module*>::const_iterator item = list_modules.begin();
+	for (item; item != list_modules.end(); item++)
+	{
+		ret = (*item)->SaveConfig(root.append_child((*item)->GetName().c_str()));
+	}
+
+	if (ret == true)
+	{
+		std::stringstream stream;
+		data.save(stream);
+
+		// we are done, so write data to disk
+		file_system->Save(game_save_file, stream.str().c_str(), stream.str().length());
+		LOG("... finished saving ", game_save_file);
+	}
+	else
+		LOG("Save game process halted from an error");
+
+	data.reset();
+	return ret;
 }

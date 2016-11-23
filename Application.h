@@ -42,6 +42,9 @@ private:
 	float	frames;
 	float	max_ms_per_frame;
 	float	ms_in_last_frame;
+	bool	want_to_save_config;
+	bool	want_to_save_game;
+	const char* game_save_file;
 
 public:
 
@@ -62,6 +65,8 @@ public:
 	void SetMaxFps(int x);
 	void OpenLink(char* path);
 	void DebugDraw();
+	void SaveConfig();
+	void SaveGame(const char* file);
 
 private:
 
@@ -69,5 +74,7 @@ private:
 	void AddModule(Module* mod);
 	void PrepareUpdate();
 	void FinishUpdate();
+	bool SaveConfigNow() const;
+	bool SaveGameNow() const;
 };
 #endif
