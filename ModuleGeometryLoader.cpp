@@ -169,6 +169,10 @@ GameObject* ModuleGeometryLoader::RecursiveLoadGeometryFromFile(const aiScene* s
 			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh->num_vertices, mesh->texture_coordinates, GL_STATIC_DRAW);
 		}
 
+		// Generate AABB
+		mesh->original_bbox.SetNegativeInfinity();
+		mesh->original_bbox.Enclose((float3*)mesh->vertices, mesh->num_vertices);
+
 		mesh->name = (scene->mMeshes[node->mMeshes[i]]->mName.length > 0) ? scene->mMeshes[node->mMeshes[i]]->mName.C_Str() : "Unnamed";
 
 		game_object->components.push_back(mesh);

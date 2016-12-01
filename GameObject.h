@@ -30,6 +30,9 @@ public:
 	std::vector<Component*> components;
 	std::vector<GameObject*> children;
 	WireframeTypeDraw type_draw;
+	AABB bbox;
+	OBB actual_bbox;
+	bool bbox_changed;
 
 	void Update();
 	bool FindComponent(std::vector<Component*>* components, ComponentType type) const;
@@ -42,11 +45,14 @@ public:
 	void SetRotation(const Quat& new_rotation);
 	void SetRotation(const float3& new_rotation);
 	void SetScale(const float3& new_scale);
+	void RecursivelyCalculateBbox();
+	void RecalculateBbox();
 
 private:
 	float4x4 local_matrix;
 
 	bool GetGlobalTransform(float4x4& transform) const;
+	float4x4 GetGlobalTransform() const;
 };
 
 #endif

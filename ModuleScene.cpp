@@ -54,6 +54,14 @@ bool ModuleScene::CleanUp()
 	return true;
 }
 
+//PreUpdate
+update_status ModuleScene::PreUpdate(float dt)
+{
+	root->RecursivelyCalculateBbox();
+
+	return UPDATE_CONTINUE;
+}
+
 // Update
 update_status ModuleScene::Update(float dt)
 {

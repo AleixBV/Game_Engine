@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "GameObject.h"
 #include "ComponentTransform.h"
+#include "ComponentMesh.h"
 
 GameObject::GameObject(GameObject* parent, const char* name) : parent(parent), name(name)
 {
@@ -97,6 +98,22 @@ bool GameObject::GetGlobalTransform(float4x4& transform) const
 	return ret;
 }
 
+float4x4 GameObject::GetGlobalTransform() const
+{
+	float4x4 ret = float4x4::identity;
+	std::vector<Component*> components_transformation;
+	if (FindComponent(&components_transformation, TRANSFORMATION_COMPONENT))
+	{
+		ComponentTransform* transformation = (ComponentTransform*)components_transformation[0];
+		ret = float4x4::FromTRS(transformation->position, transformation->rot, transformation->scale);
+
+		if (parent != nullptr)
+			ret = ret * parent->GetGlobalTransform();
+	}
+
+	return ret;
+}
+
 float4x4 GameObject::GetLocalMatrix() const
 {
 	return local_matrix;
@@ -112,6 +129,7 @@ void GameObject::SetTRS(const float3& new_position, const Quat& new_rot, const f
 		transformation->rot = new_rot;
 		transformation->scale = new_scale;
 		local_matrix = float4x4::FromTRS(new_position, new_rot, new_scale);
+		bbox_changed = true;
 	}
 
 }
@@ -124,6 +142,7 @@ void GameObject::SetPosition(const float3& new_position)
 		ComponentTransform* transformation = (ComponentTransform*)components_transformation[0];
 		transformation->position = new_position;
 		local_matrix = float4x4::FromTRS(transformation->position, transformation->rot, transformation->scale);
+		bbox_changed = true;
 	}
 }
 
@@ -136,6 +155,7 @@ void GameObject::SetRotation(const Quat& new_rotation)
 		transformation->euler_rot = new_rotation.ToEulerXYZ() / 2 / pi * 360;
 		transformation->rot = new_rotation;
 		local_matrix = float4x4::FromTRS(transformation->position, transformation->rot, transformation->scale);
+		bbox_changed = true;
 	}
 }
 
@@ -148,6 +168,7 @@ void GameObject::SetRotation(const float3& new_rotation)
 		transformation->euler_rot = new_rotation;
 		transformation->rot = transformation->rot.FromEulerXYZ(new_rotation.x * 2 * pi / 360, new_rotation.y * 2 * pi / 360, new_rotation.z * 2 * pi / 360);
 		local_matrix = float4x4::FromTRS(transformation->position, transformation->rot, transformation->scale);
+		bbox_changed = true;
 	}
 }
 
@@ -159,5 +180,33 @@ void GameObject::SetScale(const float3& new_scale)
 		ComponentTransform* transformation = (ComponentTransform*)components_transformation[0];
 		transformation->scale = new_scale;
 		local_matrix = float4x4::FromTRS(transformation->position, transformation->rot, transformation->scale);
+		bbox_changed = true;
+	}
+}
+
+void GameObject::RecursivelyCalculateBbox()
+{
+	if (bbox_changed)
+	{
+		RecalculateBbox();
+
+		actual_bbox = bbox;
+		if (actual_bbox.IsFinite())
+			actual_bbox.Transform(GetGlobalTransform());
+	}
+
+	for (std::vector<GameObject*>::iterator childs = children.begin(); childs != children.end(); childs++)
+		(*childs)->RecursivelyCalculateBbox();
+}
+
+void GameObject::RecalculateBbox()
+{
+	bbox.SetNegativeInfinity();
+
+	std::vector<Component*> components_mesh;
+	FindComponent(&components_mesh, MESH_COMPONENT);
+	for(std::vector<Component*>::iterator component_mesh = components_mesh.begin(); component_mesh != components_mesh.end(); component_mesh++)
+	{
+		bbox.Enclose(((ComponentMesh*)(*component_mesh))->original_bbox);
 	}
 }

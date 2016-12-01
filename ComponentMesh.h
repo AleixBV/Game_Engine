@@ -3,6 +3,8 @@
 
 #include "Globals.h"
 #include "Component.h"
+#include "MathGeoLib/MathBuildConfig.h"
+#include "MathGeoLib/MathGeoLib.h"
 
 struct ComponentMesh : public Component
 {
@@ -11,6 +13,7 @@ public:
 	~ComponentMesh();
 
 	const char* name = "Unnamed";
+	AABB original_bbox;
 
 	uint id_vertices = 0; // id in VRAM
 	uint num_indices = 0;

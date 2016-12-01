@@ -3,6 +3,9 @@
 #include "Globals.h"
 #include "Light.h"
 #include "ComponentMesh.h"
+#include "Color.h"
+#include "MathGeoLib/MathBuildConfig.h"
+#include "MathGeoLib/MathGeoLib.h"
 
 #define MAX_LIGHTS 8
 
@@ -25,8 +28,9 @@ public:
 private:
 	void DrawGameObjects(const GameObject* game_object);
 	void DrawMesh(const ComponentMesh* mesh, int material_id = -1, WireframeTypeDraw type_draw = WIREFRAME_NORMAL_DRAW);
-	void ModuleRenderer3D::BeginDebugDraw();
-	void ModuleRenderer3D::EndDebugDraw();
+	void DrawWireframeBox(const float3* corners, Color color);
+	void BeginDebugDraw();
+	void EndDebugDraw();
 
 public:
 

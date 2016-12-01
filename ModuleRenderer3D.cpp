@@ -215,6 +215,14 @@ void ModuleRenderer3D::DrawGameObjects(const GameObject* game_object)
 					DrawMesh(mesh, ((ComponentMaterial*)components_material[0])->material_id, game_object->type_draw);
 				else
 					DrawMesh(mesh, -1, game_object->type_draw);
+
+				if (debug_draw && game_object->actual_bbox.IsFinite())
+				{
+					static float3 corners[8];
+					game_object->bbox.GetCornerPoints(corners);
+
+					DrawWireframeBox(corners, Yellow);
+				}
 			}
 		}
 
@@ -293,6 +301,47 @@ void ModuleRenderer3D::DrawMesh(const ComponentMesh* mesh, int material_id, Wire
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisable(GL_TEXTURE_2D);
+}
+
+void ModuleRenderer3D::DrawWireframeBox(const float3* corners, Color color)
+{
+	glColor3f(color.r, color.g, color.b);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glBegin(GL_QUADS);
+
+	glVertex3fv((GLfloat*)&corners[1]);
+	glVertex3fv((GLfloat*)&corners[5]);
+	glVertex3fv((GLfloat*)&corners[7]);
+	glVertex3fv((GLfloat*)&corners[3]);
+
+	glVertex3fv((GLfloat*)&corners[4]);
+	glVertex3fv((GLfloat*)&corners[0]);
+	glVertex3fv((GLfloat*)&corners[2]);
+	glVertex3fv((GLfloat*)&corners[6]);
+
+	glVertex3fv((GLfloat*)&corners[5]);
+	glVertex3fv((GLfloat*)&corners[4]);
+	glVertex3fv((GLfloat*)&corners[6]);
+	glVertex3fv((GLfloat*)&corners[7]);
+
+	glVertex3fv((GLfloat*)&corners[0]);
+	glVertex3fv((GLfloat*)&corners[1]);
+	glVertex3fv((GLfloat*)&corners[3]);
+	glVertex3fv((GLfloat*)&corners[2]);
+
+	glVertex3fv((GLfloat*)&corners[3]);
+	glVertex3fv((GLfloat*)&corners[7]);
+	glVertex3fv((GLfloat*)&corners[6]);
+	glVertex3fv((GLfloat*)&corners[2]);
+
+	glVertex3fv((GLfloat*)&corners[0]);
+	glVertex3fv((GLfloat*)&corners[4]);
+	glVertex3fv((GLfloat*)&corners[5]);
+	glVertex3fv((GLfloat*)&corners[1]);
+
+	glEnd();
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 void ModuleRenderer3D::BeginDebugDraw()
