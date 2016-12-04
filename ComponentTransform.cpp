@@ -11,7 +11,3 @@ ComponentTransform::ComponentTransform(float3 &position, float3 &scale, Quat &ro
 ComponentTransform::~ComponentTransform()
 {
 }
-
-void ComponentTransform::Update()
-{
-}

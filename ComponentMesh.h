@@ -9,6 +9,8 @@
 struct ComponentMesh : public Component
 {
 public:
+	ALIGN_CLASS_TO_16
+
 	ComponentMesh();
 	~ComponentMesh();
 

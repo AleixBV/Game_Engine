@@ -17,8 +17,6 @@ public:
 	//Destructor
 	~ComponentTransform();
 
-	void Update();
-
 	float3 position;
 	float3 scale;
 	Quat rot = Quat::identity;

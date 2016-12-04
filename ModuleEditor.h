@@ -55,7 +55,7 @@ public:
 	void CaptureInput(SDL_Event* input) const;
 	bool CapturingMouse() const;
 	bool CapturingKeyboard() const;
-	void SetWireframeTypeDrawToChilds(GameObject* root, WireframeTypeDraw wireframe_type_draw);
+	void SetWireframeTypeDrawToChilds(GameObject* root, GameObject::WireframeTypeDraw wireframe_type_draw);
 
 private:
 	void ShowHierarchyWindow(bool* show_hierarchy);

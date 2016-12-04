@@ -4,6 +4,7 @@
 #include "Primitive.h"
 #include "PhysBody3D.h"
 #include "ModuleGeometryLoader.h"
+#include "ComponentCamera.h"
 #include "Glew/include/glew.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
@@ -35,6 +36,10 @@ bool ModuleScene::Start()
 
 	root = new GameObject(nullptr, "root");
 
+	main_camera = new GameObject(root, "main_camera");
+	ComponentCamera* camera = new ComponentCamera();
+	main_camera->components.push_back(camera);
+
 	return ret;
 }
 
@@ -65,6 +70,8 @@ update_status ModuleScene::PreUpdate(float dt)
 // Update
 update_status ModuleScene::Update(float dt)
 {
+	root->Update();
+
 	for (std::vector<Primitive*>::iterator tmp = primitives.begin(); tmp != primitives.end(); tmp++)
 	{
 		(*tmp)->Render();

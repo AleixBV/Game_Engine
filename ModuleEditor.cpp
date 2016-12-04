@@ -4,9 +4,11 @@
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
+#include "ComponentCamera.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_sdl_gl3.h"
 #include "imgui/gl3w.h"
+#include <string>
 
 //Constructor
 ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -253,7 +255,7 @@ bool ModuleEditor::CapturingKeyboard() const
 	return capturing_keyboard;
 }
 
-void ModuleEditor::SetWireframeTypeDrawToChilds(GameObject* root, WireframeTypeDraw wireframe_type_draw)
+void ModuleEditor::SetWireframeTypeDrawToChilds(GameObject* root, GameObject::WireframeTypeDraw wireframe_type_draw)
 {
 	for (std::vector<GameObject*>::iterator i = root->children.begin(); i != root->children.end(); i++)
 	{
@@ -281,11 +283,11 @@ void ModuleEditor::ShowHierarchyWindow(bool* show_hierarchy)
 
 		if (new_item_clicked && game_object_selected != nullptr)
 		{
-			App->scene->root->type_draw = WIREFRAME_NORMAL_DRAW;
-			SetWireframeTypeDrawToChilds(App->scene->root, WIREFRAME_NORMAL_DRAW);
+			App->scene->root->type_draw = GameObject::WIREFRAME_NORMAL_DRAW;
+			SetWireframeTypeDrawToChilds(App->scene->root, GameObject::WIREFRAME_NORMAL_DRAW);
 
-			game_object_selected->type_draw = WIREFRAME_SELECTED_DRAW;
-			SetWireframeTypeDrawToChilds(game_object_selected, WIREFRAME_PARENT_SELECTED_DRAW);
+			game_object_selected->type_draw = GameObject::WIREFRAME_SELECTED_DRAW;
+			SetWireframeTypeDrawToChilds(game_object_selected, GameObject::WIREFRAME_PARENT_SELECTED_DRAW);
 
 			new_item_clicked = false;
 		}
@@ -306,9 +308,12 @@ void ModuleEditor::ShowInspectorWindow(bool* show_inspector)
 	{
 		for (int i = 0; i < game_object_selected->components.size(); i++)
 		{
+			std::string component_num = std::to_string(i);
+			std::string label = "";
+
 			switch (game_object_selected->components[i]->type)
 			{
-			case TRANSFORMATION_COMPONENT:
+			case Component::TRANSFORMATION_COMPONENT:
 			{
 				ComponentTransform* component_transformation = (ComponentTransform*)game_object_selected->components[i];
 				float pos_x = component_transformation->position.x;
@@ -354,19 +359,42 @@ void ModuleEditor::ShowInspectorWindow(bool* show_inspector)
 					game_object_selected->SetScale(float3(scale_x, scale_y, scale_z));
 				break;
 			}
-			case MESH_COMPONENT:
-				if (ImGui::CollapsingHeader("Mesh", ImGuiTreeNodeFlags_DefaultOpen))
+			case Component::MESH_COMPONENT:
+				label = "Mesh##";
+				label += component_num.c_str();
+				if (ImGui::CollapsingHeader(label.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 				{
+					label = "Active##Mesh_component_Active";
+					label += component_num.c_str();
+					ImGui::Checkbox(label.c_str(), &game_object_selected->components[i]->active);
 					ComponentMesh* mesh = (ComponentMesh*)game_object_selected->components[i];
 					ImGui::Text("Indices: %u", mesh->num_indices);
 					ImGui::Text("Vertices: %u", mesh->num_vertices);
 				}
 				break;
-			case MATERIAL_COMPONENT:
-				if (ImGui::CollapsingHeader("Material", ImGuiTreeNodeFlags_DefaultOpen))
+			case Component::MATERIAL_COMPONENT:
+				label = "Material##";
+				label += component_num.c_str();
+				if (ImGui::CollapsingHeader(label.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 				{
+					label = "Active##Material_Component_Active";
+					label += component_num.c_str();
+					ImGui::Checkbox(label.c_str(), &game_object_selected->components[i]->active);
 					ImGui::Text("Texture:");
 					ImGui::Image((ImTextureID)((ComponentMaterial*)game_object_selected->components[i])->material_id, ImVec2(100, 100));
+				}
+				break;
+			case Component::CAMERA_COMPONENT:
+				{
+				label = "Camera##";
+				label += component_num.c_str();
+				if (ImGui::CollapsingHeader(label.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+				{
+					label = "Active##Camera_Component_Active";
+					label += component_num.c_str();
+					ImGui::Checkbox(label.c_str(), &game_object_selected->components[i]->active);
+					ImGui::Checkbox("Frsutum culling active##", &((ComponentCamera*)game_object_selected->components[i])->frustum_culling_active);
+				}
 				}
 				break;
 			default:

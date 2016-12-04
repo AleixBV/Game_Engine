@@ -333,6 +333,9 @@
     <ClInclude Include="ComponentMesh.h">
       <Filter>Sources\Containers</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentCamera.h">
+      <Filter>Sources\Containers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -522,6 +525,9 @@
       <Filter>Sources\Tools\PugiXml</Filter>
     </ClCompile>
     <ClCompile Include="ComponentMesh.cpp">
+      <Filter>Sources\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentCamera.cpp">
       <Filter>Sources\Containers</Filter>
     </ClCompile>
   </ItemGroup>

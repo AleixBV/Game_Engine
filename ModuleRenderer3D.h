@@ -27,7 +27,7 @@ public:
 
 private:
 	void DrawGameObjects(const GameObject* game_object);
-	void DrawMesh(const ComponentMesh* mesh, int material_id = -1, WireframeTypeDraw type_draw = WIREFRAME_NORMAL_DRAW);
+	void DrawMesh(const ComponentMesh* mesh, int material_id = -1, GameObject::WireframeTypeDraw type_draw = GameObject::WIREFRAME_NORMAL_DRAW);
 	void DrawWireframeBox(const float3* corners, Color color);
 	void BeginDebugDraw();
 	void EndDebugDraw();

@@ -5,6 +5,7 @@
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
 #include "ComponentMaterial.h"
+#include "ComponentCamera.h"
 #include <vector>
 #include "Glew/include/glew.h"
 #include "SDL/include/SDL_opengl.h"
@@ -194,35 +195,63 @@ void ModuleRenderer3D::DrawGameObjects(const GameObject* game_object)
 {
 	if (game_object != nullptr)
 	{
+		bool draw = true;
+		if (App->scene->main_camera != nullptr)
+		{
+			std::vector<Component*> components;
+			if (App->scene->main_camera->FindComponent(&components, Component::CAMERA_COMPONENT))
+			{
+				ComponentCamera* camera = (ComponentCamera*)components.front();
+				if (camera->active && camera->frustum_culling_active && !game_object->visible_frustum)
+				{
+					draw = false;
+				}
+			}
+		}
+
 		glColor3f(1.0f, 1.0f, 1.0f);
 
 		std::vector<Component*> components_transformation;
-		if (game_object->FindComponent(&components_transformation, TRANSFORMATION_COMPONENT))
+		if (game_object->FindComponent(&components_transformation, Component::TRANSFORMATION_COMPONENT))
 		{
 			glPushMatrix();
 			glMultMatrixf(game_object->GetLocalMatrix().Transposed().ptr());
 		}
 
-		std::vector<Component*> components_mesh;
-		if (game_object->FindComponent(&components_mesh, MESH_COMPONENT))
+		if (draw)
 		{
-			for (int i = 0; i < components_mesh.capacity(); i++)
+			std::vector<Component*> components_mesh;
+			if (game_object->FindComponent(&components_mesh, Component::MESH_COMPONENT))
 			{
-				ComponentMesh* mesh = (ComponentMesh*)components_mesh[i];
-
-				std::vector<Component*> components_material;
-				if(game_object->FindComponent(&components_material, MATERIAL_COMPONENT))
-					DrawMesh(mesh, ((ComponentMaterial*)components_material[0])->material_id, game_object->type_draw);
-				else
-					DrawMesh(mesh, -1, game_object->type_draw);
-
-				if (debug_draw && game_object->actual_bbox.IsFinite())
+				for (int i = 0; i < components_mesh.capacity(); i++)
 				{
-					static float3 corners[8];
-					game_object->bbox.GetCornerPoints(corners);
+					ComponentMesh* mesh = (ComponentMesh*)components_mesh[i];
 
-					DrawWireframeBox(corners, Yellow);
+					if (mesh->active)
+					{
+						std::vector<Component*> components_material;
+						if (game_object->FindComponent(&components_material, Component::MATERIAL_COMPONENT) && ((ComponentMaterial*)components_material[0])->active)
+							DrawMesh(mesh, ((ComponentMaterial*)components_material[0])->material_id, game_object->type_draw);
+						else
+							DrawMesh(mesh, -1, game_object->type_draw);
+
+						if (debug_draw && game_object->actual_bbox.IsFinite())
+						{
+							static float3 corners[8];
+							game_object->bbox.GetCornerPoints(corners);
+
+							DrawWireframeBox(corners, Yellow);
+						}
+					}
 				}
+			}
+
+			std::vector<Component*> components_camera;
+			if (debug_draw && game_object->FindComponent(&components_camera, Component::CAMERA_COMPONENT))
+			{
+				static float3 corners[8];
+				((ComponentCamera*)components_camera[0])->camera.GetCornerPoints(corners);
+				DrawWireframeBox(corners, Yellow);
 			}
 		}
 
@@ -241,7 +270,7 @@ void ModuleRenderer3D::DrawGameObjects(const GameObject* game_object)
 	}
 }
 
-void ModuleRenderer3D::DrawMesh(const ComponentMesh* mesh, int material_id, WireframeTypeDraw type_draw)
+void ModuleRenderer3D::DrawMesh(const ComponentMesh* mesh, int material_id, GameObject::WireframeTypeDraw type_draw)
 {
 	glColor3f(1.0f, 1.0f, 1.0f);
 
@@ -281,14 +310,14 @@ void ModuleRenderer3D::DrawMesh(const ComponentMesh* mesh, int material_id, Wire
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
 	glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
 
-	if (type_draw == WIREFRAME_SELECTED_DRAW)
+	if (type_draw == GameObject::WIREFRAME_SELECTED_DRAW)
 	{
 		glColor3f(0.0f, 1.0f, 0.0f);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
-	else if(type_draw == WIREFRAME_PARENT_SELECTED_DRAW)
+	else if(type_draw == GameObject::WIREFRAME_PARENT_SELECTED_DRAW)
 	{
 		glColor3f(0.0f, 1.0f, 1.0f);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

@@ -11,12 +11,14 @@ Component::~Component()
 
 void Component::Enable()
 {
+	active = true;
 }
 
-void Component::Update()
+void Component::Update(GameObject* parent)
 {
 }
 
 void Component::Disable()
 {
+	active = false;
 }

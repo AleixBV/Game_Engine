@@ -29,6 +29,7 @@ public:
 	GameObject* CreateNewGameObject(GameObject* parent = nullptr, const char* name = "unnamed");
 
 	GameObject* root = nullptr;
+	GameObject* main_camera = nullptr;
 
 private:
 	void CreateSphere(const vec3& position, float radius);

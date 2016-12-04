@@ -205,7 +205,7 @@ GameObject* ModuleGeometryLoader::RecursiveLoadGeometryFromFile(const aiScene* s
 	{
 		for (int z = 0; z < node->mNumChildren; z++)
 		{
-			game_object->children.push_back(RecursiveLoadGeometryFromFile(scene, node->mChildren[z], game_object));
+			RecursiveLoadGeometryFromFile(scene, node->mChildren[z], game_object);
 		}
 	}
 	return game_object;
@@ -219,7 +219,7 @@ bool ModuleGeometryLoader::LoadGeometryFromFile(const char* path, GameObject* ro
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
-		root->children.push_back(RecursiveLoadGeometryFromFile(scene, scene->mRootNode, root));
+		RecursiveLoadGeometryFromFile(scene, scene->mRootNode, root);
 		aiReleaseImport(scene);
 	}
 	else
