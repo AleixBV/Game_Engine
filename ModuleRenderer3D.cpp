@@ -172,6 +172,11 @@ bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Destroying 3D Renderer");
 
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
+	glDisable(GL_LIGHTING);
+	glDisable(GL_COLOR_MATERIAL);
+
 	SDL_GL_DeleteContext(context);
 
 	return true;
@@ -304,6 +309,11 @@ void ModuleRenderer3D::DrawMesh(const ComponentMesh* mesh, int material_id, Game
 	if (material_id != -1)
 	{
 		glEnable(GL_TEXTURE_2D);
+		glEnable(GL_ALPHA_TEST);
+		glEnable(GL_BLEND);
+		
+		glBlendFunc(BlendType(mesh->sfactor), BlendType(mesh->dfactor));
+		glAlphaFunc(GL_GREATER, mesh->alpha);
 		glBindTexture(GL_TEXTURE_2D, material_id);
 	}
 
@@ -329,7 +339,10 @@ void ModuleRenderer3D::DrawMesh(const ComponentMesh* mesh, int material_id, Game
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
+	glDisable(GL_BLEND);
+	glDisable(GL_ALPHA_TEST);
 	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_LIGHTING);
 }
 
 void ModuleRenderer3D::DrawWireframeBox(const float3* corners, Color color)
@@ -381,4 +394,56 @@ void ModuleRenderer3D::BeginDebugDraw()
 void ModuleRenderer3D::EndDebugDraw()
 {
 
+}
+
+unsigned int ModuleRenderer3D::BlendType(ComponentMesh::BlendType blendtype)
+{
+	switch (blendtype)
+	{
+	case ComponentMesh::BLEND_GL_ZERO:
+		return GL_ZERO;
+		break;
+	case ComponentMesh::BLEND_GL_ONE:
+		return GL_ONE;
+		break;
+	case ComponentMesh::BLEND_GL_SRC_COLOR:
+		return GL_SRC_COLOR;
+		break;
+	case ComponentMesh::BLEND_GL_ONE_MINUS_SRC_COLOR:
+		return GL_ONE_MINUS_SRC_COLOR;
+		break;
+	case ComponentMesh::BLEND_GL_DST_COLOR:
+		return GL_DST_COLOR;
+		break;
+	case ComponentMesh::BLEND_GL_ONE_MINUS_DST_COLOR:
+		return GL_ONE_MINUS_DST_COLOR;
+		break;
+	case ComponentMesh::BLEND_GL_SRC_ALPHA:
+		return GL_SRC_ALPHA;
+		break;
+	case ComponentMesh::BLEND_GL_ONE_MINUS_SRC_ALPHA:
+		return GL_ONE_MINUS_SRC_ALPHA;
+		break;
+	case ComponentMesh::BLEND_GL_DST_ALPHA:
+		return GL_DST_ALPHA;
+		break;
+	case ComponentMesh::BLEND_GL_ONE_MINUS_DST_ALPHA:
+		return GL_ONE_MINUS_DST_ALPHA;
+		break;
+	case ComponentMesh::BLEND_GL_CONSTANT_COLOR:
+		return GL_CONSTANT_COLOR;
+		break;
+	case ComponentMesh::BLEND_GL_ONE_MINUS_CONSTANT_COLOR:
+		return GL_ONE_MINUS_CONSTANT_COLOR;
+		break;
+	case ComponentMesh::BLEND_GL_CONSTANT_ALPHA:
+		return GL_CONSTANT_ALPHA;
+		break;
+	case ComponentMesh::BLEND_GL_ONE_MINUS_CONSTANT_ALPHA:
+		return GL_ONE_MINUS_CONSTANT_ALPHA;
+		break;
+	default:
+		return GL_SRC_ALPHA;
+		break;
+	}
 }

@@ -367,6 +367,29 @@ void ModuleEditor::ShowInspectorWindow(bool* show_inspector)
 					label = "Active##Mesh_component_Active";
 					label += component_num.c_str();
 					ImGui::Checkbox(label.c_str(), &game_object_selected->components[i]->active);
+
+					label = "Alpha##Mesh_component_Alpha";
+					label += component_num.c_str();
+					ImGui::SliderFloat(label.c_str(), &((ComponentMesh*)game_object_selected->components[i])->alpha, 0.0f, 1.0f);
+
+					ImGui::Separator();
+					label = "##Mesh_component_Source_Blend_Type";
+					label += component_num.c_str();
+					ImGui::Text("Source Blend Type");
+					int item = ((ComponentMesh*)game_object_selected->components[i])->sfactor;
+					ImGui::Combo(label.c_str(), &item, ((ComponentMesh*)game_object_selected->components[i])->blend_types.data(), ((ComponentMesh*)game_object_selected->components[i])->blend_types.size());
+					if(item != ((ComponentMesh*)game_object_selected->components[i])->sfactor)
+						((ComponentMesh*)game_object_selected->components[i])->SetSfactor(item);
+
+					label = "##Mesh_component_Destination_Blend_Type";
+					label += component_num.c_str();
+					ImGui::Text("Destination Blend Type");
+					int item2 = ((ComponentMesh*)game_object_selected->components[i])->dfactor;
+					ImGui::Combo(label.c_str(), &item2, ((ComponentMesh*)game_object_selected->components[i])->blend_types.data(), ((ComponentMesh*)game_object_selected->components[i])->blend_types.size());
+					if (item2 != ((ComponentMesh*)game_object_selected->components[i])->dfactor)
+						((ComponentMesh*)game_object_selected->components[i])->SetDfactor(item2);
+
+					ImGui::Separator();
 					ComponentMesh* mesh = (ComponentMesh*)game_object_selected->components[i];
 					ImGui::Text("Indices: %u", mesh->num_indices);
 					ImGui::Text("Vertices: %u", mesh->num_vertices);

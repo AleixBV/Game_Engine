@@ -9,6 +9,8 @@
 
 #define MAX_LIGHTS 8
 
+//class ComponentMesh;
+
 class ModuleRenderer3D : public Module
 {
 public:
@@ -31,6 +33,8 @@ private:
 	void DrawWireframeBox(const float3* corners, Color color);
 	void BeginDebugDraw();
 	void EndDebugDraw();
+
+	unsigned int BlendType(ComponentMesh::BlendType blendtype);
 
 public:
 
