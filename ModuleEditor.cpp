@@ -609,9 +609,7 @@ void ModuleEditor::CheckClickInHierarchy(GameObject* game_object)
 			float3 position;
 			if (game_object->GetGlobalPosition(&position))
 			{
-				App->camera->LookAt(vec3(position.x, position.y, position.z));
-				App->camera->Position = vec3(position.x, position.y, position.z) + App->camera->Z * 50.0f;
-				App->camera->Reference = vec3(position.x, position.y, position.z) + App->camera->Z * 50.0f;
+				App->camera->Look(App->camera->Position, vec3(position.x, position.z, -position.y), true);
 			}
 		}
 	}
